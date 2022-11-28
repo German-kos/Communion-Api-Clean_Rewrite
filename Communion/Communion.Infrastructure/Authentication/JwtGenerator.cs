@@ -8,7 +8,7 @@ namespace Communion.Infrastructure.Authentication;
 
 public class JwtGenerator : IJwtGenerator
 {
-    public string GenerateToken(Guid userId, string username)
+    public string GenerateToken(Guid userId, string username, string name)
     {
         var signingCredentials = new SigningCredentials(
             new SymmetricSecurityKey(
@@ -21,6 +21,7 @@ public class JwtGenerator : IJwtGenerator
         {
         new Claim(JwtRegisteredClaimNames.Sub, userId.ToString()),
         new Claim(JwtRegisteredClaimNames.NameId, username),
+        new Claim(JwtRegisteredClaimNames.Name, name),
         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
 
