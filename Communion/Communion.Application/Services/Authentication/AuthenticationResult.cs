@@ -1,6 +1,6 @@
-namespace Communion.Contracts.Authentication;
+namespace Communion.Application.Services.Authentication;
 
-public record AuthenticationResponse
+public record AuthenticationResult
 (
     Guid Id,
     string Username,
