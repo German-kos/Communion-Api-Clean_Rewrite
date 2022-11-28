@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using Communion.Application.Common.Interfaces.Authentication;
 using Communion.Application.Common.Interfaces.Services;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Communion.Infrastructure.Authentication;
@@ -11,8 +12,10 @@ public class JwtGenerator : IJwtGenerator
 {
     // Dependency Injections:
     private readonly IDateTimeProvider _time;
-    public JwtGenerator(IDateTimeProvider time)
+    private readonly JwtSettings _options;
+    public JwtGenerator(IDateTimeProvider time, IOptions<JwtSettings> options)
     {
+        _options = options.Value;
         _time = time;
     }
 
@@ -24,7 +27,7 @@ public class JwtGenerator : IJwtGenerator
     {
         var signingCredentials = new SigningCredentials(
             new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes("dont-tell-anyone-about-this-key")),
+                Encoding.UTF8.GetBytes(_options.Secret)),
                 SecurityAlgorithms.HmacSha256
             );
 
@@ -38,8 +41,9 @@ public class JwtGenerator : IJwtGenerator
         };
 
         var securityToken = new JwtSecurityToken(
-            issuer: "Communion",
-            expires: _time.UtcNow.AddDays(7),
+            issuer: _options.Issuer,
+            audience: _options.Audience,
+            expires: _time.UtcNow.AddDays(_options.ExpiryDays),
             claims: claims,
         signingCredentials: signingCredentials);
 
