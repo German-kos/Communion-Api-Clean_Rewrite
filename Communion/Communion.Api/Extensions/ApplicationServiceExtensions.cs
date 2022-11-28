@@ -1,13 +1,17 @@
+using Communion.Application;
 using Communion.Application.Services.Authentication;
+using Communion.Infrastructure;
 
 namespace Communion.Api.Extensions;
 
-public static class ApplicationServiceExtensions
+public static class ServiceExtensions
 {
-    public static IServiceCollection AddApplicationServices(this IServiceCollection services)
+    public static IServiceCollection AddServices(this IServiceCollection services)
     {
-        // Authentication Requests
-        services.AddScoped<IAuthenticationService, AuthenticationService>();
+        // Add services from other layers
+        services
+            .AddApplication()
+            .AddInfrastructure();
 
         return services;
     }
