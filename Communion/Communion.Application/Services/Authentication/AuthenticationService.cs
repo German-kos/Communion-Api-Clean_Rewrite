@@ -9,11 +9,11 @@ namespace Communion.Application.Services.Authentication;
 public class AuthenticationService : IAuthenticationService
 {
     // Dependency Injections:
-    private readonly IJwtGenerator _jwt;
+    private readonly IJwtGenerator _jwtGenerator;
     private readonly IUserRepository _userRepository;
-    public AuthenticationService(IJwtGenerator jwt, IUserRepository userRepository)
+    public AuthenticationService(IJwtGenerator jwtGenerator, IUserRepository userRepository)
     {
-        _jwt = jwt;
+        _jwtGenerator = jwtGenerator;
         _userRepository = userRepository;
     }
 
@@ -23,6 +23,10 @@ public class AuthenticationService : IAuthenticationService
 
     public AuthenticationResult SignIn(string username, string password, bool remember)
     {
+        // Validate that the user exists.
+        if (_userRepository.GetByUsername(username) is not User user)
+            throw new Exception("User does not exist.");
+
         return new AuthenticationResult(
             Guid.NewGuid(),
             username,
@@ -36,12 +40,12 @@ public class AuthenticationService : IAuthenticationService
 
     public AuthenticationResult SignUp(string username, string password, string name, string email)
     {
-        // write check for if user/email already exist
+        // Validate that the user doesn't exist.
         if (_userRepository.GetByUsername(username) is not null)
             throw new Exception("This username is already in use.");
 
 
-        // write creation of user in the database
+        // Create the new user.
         using var hmac = new HMACSHA512();
         var user = new User
         {
@@ -52,7 +56,7 @@ public class AuthenticationService : IAuthenticationService
             Email = email
         };
 
-        var token = _jwt.GenerateToken(user.Id, username, name);
+        var token = _jwtGenerator.GenerateToken(user.Id, username, name);
 
         return new AuthenticationResult(
             user.Id,
