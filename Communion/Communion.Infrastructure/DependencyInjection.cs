@@ -1,6 +1,8 @@
 using Communion.Application.Common.Interfaces.Authentication;
+using Communion.Application.Common.Interfaces.Persistence;
 using Communion.Application.Common.Interfaces.Services;
 using Communion.Infrastructure.Authentication;
+using Communion.Infrastructure.Persistence;
 using Communion.Infrastructure.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,6 +17,8 @@ public static class DependencyInjection
 
         services.AddSingleton<IJwtGenerator, JwtGenerator>();
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
+
+        services.AddScoped<IUserRepository, UserRepository>();
 
         return services;
     }

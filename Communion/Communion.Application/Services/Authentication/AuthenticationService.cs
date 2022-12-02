@@ -27,13 +27,23 @@ public class AuthenticationService : IAuthenticationService
         if (_userRepository.GetByUsername(username) is not User user)
             throw new Exception("User does not exist.");
 
+        // Validate that passwords match
+        if (!PasswordsMatch(password, user))
+            throw new Exception("Invalid password.");
+
+        var token = _jwtGenerator.GenerateToken(user.Id, user.Username, user.Name);
+
+        string? pfp = user.ProfilePicture;
+        if (pfp is null)
+            pfp = "No pfp";
+
         return new AuthenticationResult(
-            Guid.NewGuid(),
-            username,
-            "name goes here",
-            "email goes here",
-            "pfp url goes here",
-            "token goes here",
+            user.Id,
+            user.Username,
+            user.Name,
+            user.Email,
+            pfp,
+            token,
             remember);
     }
 
@@ -66,5 +76,18 @@ public class AuthenticationService : IAuthenticationService
             "pfp url goes here",
             token,
             true);
+    }
+
+
+    private bool PasswordsMatch(string password, User user)
+    {
+        using var hmac = new HMACSHA512(user.PasswordSalt);
+        var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+
+        for (int i = 0; i < computedHash.Length; i++)
+            if (computedHash[i] != user.PasswordHash[i])
+                return false;
+
+        return true;
     }
 }
