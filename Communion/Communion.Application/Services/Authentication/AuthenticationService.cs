@@ -66,7 +66,10 @@ public class AuthenticationService : IAuthenticationService
             Email = email
         };
 
+        _userRepository.Add(user);
+
         var token = _jwtGenerator.GenerateToken(user.Id, username, name);
+
 
         return new AuthenticationResult(
             user.Id,
