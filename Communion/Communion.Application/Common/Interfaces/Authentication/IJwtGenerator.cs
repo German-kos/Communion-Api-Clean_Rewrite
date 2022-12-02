@@ -1,6 +1,8 @@
+using Communion.Domain.Entities;
+
 namespace Communion.Application.Common.Interfaces.Authentication;
 
 public interface IJwtGenerator
 {
-    string GenerateToken(Guid userId, string username, string name);
+    string GenerateToken(User user);
 }

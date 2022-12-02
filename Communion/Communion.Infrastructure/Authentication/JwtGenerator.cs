@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using Communion.Application.Common.Interfaces.Authentication;
 using Communion.Application.Common.Interfaces.Services;
+using Communion.Domain.Entities;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
@@ -23,7 +24,7 @@ public class JwtGenerator : IJwtGenerator
     // Methods:
 
 
-    public string GenerateToken(Guid userId, string username, string name)
+    public string GenerateToken(User user)
     {
         var signingCredentials = new SigningCredentials(
             new SymmetricSecurityKey(
@@ -34,9 +35,9 @@ public class JwtGenerator : IJwtGenerator
 
         var claims = new[]
         {
-        new Claim(JwtRegisteredClaimNames.Sub, userId.ToString()),
-        new Claim(JwtRegisteredClaimNames.NameId, username),
-        new Claim(JwtRegisteredClaimNames.Name, name),
+        new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+        new Claim(JwtRegisteredClaimNames.NameId, user.Username),
+        new Claim(JwtRegisteredClaimNames.Name, user.Name),
         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
 

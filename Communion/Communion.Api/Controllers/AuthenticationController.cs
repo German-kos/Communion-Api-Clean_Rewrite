@@ -27,11 +27,11 @@ public class AuthenticationController : BaseApiController
 
         var authResult = _auth.SignUp(username, password, name, email);
         var response = new AuthenticationResponse(
-            authResult.Id,
-            authResult.Username,
-            authResult.Name,
-            authResult.Email,
-            authResult.ProfilePicture,
+            authResult.User.Id,
+            authResult.User.Username,
+            authResult.User.Name,
+            authResult.User.Email,
+            authResult.User.ProfilePicture,
             authResult.Token,
             authResult.Remember);
 
@@ -46,11 +46,11 @@ public class AuthenticationController : BaseApiController
 
         var authResult = _auth.SignIn(username, password, remember);
         var response = new AuthenticationResponse(
-            authResult.Id,
-            authResult.Username,
-            authResult.Name,
-            authResult.Email,
-            authResult.ProfilePicture,
+            authResult.User.Id,
+            authResult.User.Username,
+            authResult.User.Name,
+            authResult.User.Email,
+            authResult.User.ProfilePicture,
             authResult.Token,
             authResult.Remember);
 

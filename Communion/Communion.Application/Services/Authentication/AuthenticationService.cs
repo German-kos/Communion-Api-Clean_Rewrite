@@ -31,18 +31,14 @@ public class AuthenticationService : IAuthenticationService
         if (!PasswordsMatch(password, user))
             throw new Exception("Invalid password.");
 
-        var token = _jwtGenerator.GenerateToken(user.Id, user.Username, user.Name);
+        var token = _jwtGenerator.GenerateToken(user);
 
         string? pfp = user.ProfilePicture;
         if (pfp is null)
             pfp = "No pfp";
 
         return new AuthenticationResult(
-            user.Id,
-            user.Username,
-            user.Name,
-            user.Email,
-            pfp,
+            user,
             token,
             remember);
     }
@@ -68,15 +64,11 @@ public class AuthenticationService : IAuthenticationService
 
         _userRepository.Add(user);
 
-        var token = _jwtGenerator.GenerateToken(user.Id, username, name);
+        var token = _jwtGenerator.GenerateToken(user);
 
 
         return new AuthenticationResult(
-            user.Id,
-            username,
-            name,
-            email,
-            "pfp url goes here",
+            user,
             token,
             true);
     }

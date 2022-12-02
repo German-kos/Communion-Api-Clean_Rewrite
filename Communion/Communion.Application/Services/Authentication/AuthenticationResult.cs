@@ -1,12 +1,10 @@
+using Communion.Domain.Entities;
+
 namespace Communion.Application.Services.Authentication;
 
 public record AuthenticationResult
 (
-    Guid Id,
-    string Username,
-    string Name,
-    string Email,
-    string ProfilePicture,
+    User User,
     string Token,
     bool Remember
 );
