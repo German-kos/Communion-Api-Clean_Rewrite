@@ -90,7 +90,8 @@ internal sealed class CommunionProblemDetailsFactory : ProblemDetailsFactory
             problemDetails.Extensions["traceId"] = traceId;
         }
 
-        problemDetails.Extensions.Add("customProperty", "customValue");
+        // example for custom fields
+        // problemDetails.Extensions.Add("customProperty", "customValue");
     }
 }
 

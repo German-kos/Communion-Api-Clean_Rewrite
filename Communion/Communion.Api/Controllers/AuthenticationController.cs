@@ -1,10 +1,10 @@
+using Communion.Api.Common.BaseApi;
 using Communion.Application.Services.Authentication;
 using Communion.Contracts.Authentication;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Communion.Api.Controllers;
 
-[ApiController]
 [Route("api/auth")]
 public class AuthenticationController : BaseApiController
 {

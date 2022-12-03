@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace Communion.Api.Controllers;
+namespace Communion.Api.Common.BaseApi;
 
 [ApiController]
 [Route("api/[controller")]
