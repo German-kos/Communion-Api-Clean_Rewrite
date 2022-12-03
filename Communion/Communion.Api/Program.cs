@@ -1,4 +1,4 @@
-using Communion.Api.Errors;
+using Communion.Api.Common.Errors;
 using Communion.Api.Extensions;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 
@@ -15,6 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 var app = builder.Build();
 {
+    app.UseExceptionHandler("/error");
     app.UseHttpsRedirection();
     app.UseCors(policy =>
         policy

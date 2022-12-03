@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Options;
 
-namespace Communion.Api.Errors;
+namespace Communion.Api.Common.Errors;
 
 internal sealed class CommunionProblemDetailsFactory : ProblemDetailsFactory
 {
