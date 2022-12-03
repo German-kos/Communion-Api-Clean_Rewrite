@@ -16,6 +16,6 @@ var problemDetails = new ProblemDetails
 > As seen in [ErrorHandlingFilterAttribute](https://github.com/German-kos/Communion-Api-Clean_Rewrite/blob/5b707a0faebb76d2fd8b57abdeffed5c5be4a688/Communion/Communion.Api/Filters/ErrorHandlingFilterAttribute.cs#L13-L18).
 
 **The result would looks like this:**
-![](images/ErrorHttpResponseEx.png)
+![](.\Images\ErrorHttpResponseEx.png)
 
 > _File might be update or deleted in the future._
