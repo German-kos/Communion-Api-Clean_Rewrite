@@ -1,4 +1,5 @@
 using Communion.Api.Extensions;
+using Communion.Api.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 {
@@ -16,6 +17,7 @@ var app = builder.Build();
         .AllowAnyMethod()
         .WithOrigins("http://localhost:3000")
     );
+    app.UseMiddleware<ExceptionHandlingMiddleware>();
     app.UseAuthentication();
     app.UseAuthorization();
     app.MapControllers();
