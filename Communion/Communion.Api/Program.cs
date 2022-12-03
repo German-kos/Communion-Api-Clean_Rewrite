@@ -1,15 +1,10 @@
 using Communion.Api.Errors;
 using Communion.Api.Extensions;
-using Communion.Api.Filters;
-using Communion.Api.Middleware;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 {
     builder.Services.AddServices(builder.Configuration);
-
-    // demo for error handling filter
-    // builder.Services.AddControllers(options => options.Filters.Add<ErrorHandlingFilterAttribute>());
 
     builder.Services.AddControllers();
 
@@ -27,11 +22,6 @@ var app = builder.Build();
         .AllowAnyMethod()
         .WithOrigins("http://localhost:3000")
     );
-
-    // demo for exception handling middleware
-    // app.UseMiddleware<ExceptionHandlingMiddleware>();
-
-    app.UseExceptionHandler("/error");
     app.UseAuthentication();
     app.UseAuthorization();
     app.MapControllers();
