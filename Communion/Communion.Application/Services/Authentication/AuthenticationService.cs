@@ -1,5 +1,6 @@
 using System.Security.Cryptography;
 using System.Text;
+using Communion.Application.Common.Errors;
 using Communion.Application.Common.Interfaces.Authentication;
 using Communion.Application.Common.Interfaces.Persistence;
 using Communion.Domain.Entities;
@@ -25,11 +26,11 @@ public class AuthenticationService : IAuthenticationService
     {
         // Validate that the user exists.
         if (_userRepository.GetByUsername(username) is not User user)
-            throw new Exception("User does not exist.");
+            throw new UserNotFoundException();
 
         // Validate that passwords match
         if (!PasswordsMatch(password, user))
-            throw new Exception("Invalid password.");
+            throw new WrongPasswordException();
 
         var token = _jwtGenerator.GenerateToken(user);
 
@@ -47,9 +48,12 @@ public class AuthenticationService : IAuthenticationService
     public AuthenticationResult SignUp(string username, string password, string name, string email)
     {
         // Validate that the user doesn't exist.
-        if (_userRepository.GetByUsername(username) is not null)
-            throw new Exception("This username is already in use.");
+        if (_userRepository.DoesUsernameExist(username))
+            throw new DuplicateUsernameException();
 
+        // Validate that the email doesn't exist.
+        if (_userRepository.DoesEmailExist(email))
+            throw new DuplicateEmailException();
 
         // Create the new user.
         using var hmac = new HMACSHA512();

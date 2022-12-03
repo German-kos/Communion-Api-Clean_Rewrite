@@ -6,4 +6,6 @@ public interface IUserRepository
 {
     void Add(User user);
     User? GetByUsername(string username);
+    bool DoesEmailExist(string email);
+    bool DoesUsernameExist(string username);
 }

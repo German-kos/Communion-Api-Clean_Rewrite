@@ -1,3 +1,4 @@
+using Communion.Application.Common.Errors;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,6 +11,15 @@ public class ErrorsController : ControllerBase
     {
         Exception? exception = HttpContext.Features.Get<IExceptionHandlerFeature>()?.Error;
 
-        return Problem(title: exception?.Message, statusCode: 400);
+        var (statusCode, message) = exception switch
+        {
+            DuplicateEmailException => (StatusCodes.Status409Conflict, "Email already exists."),
+            DuplicateUsernameException => (StatusCodes.Status409Conflict, "Username already exists."),
+            UserNotFoundException => (StatusCodes.Status404NotFound, "User does not exist."),
+            WrongPasswordException => (StatusCodes.Status409Conflict, "Wrong password."),
+            _ => (StatusCodes.Status500InternalServerError, "An unexpected error has occured.")
+        };
+
+        return Problem(statusCode: statusCode, title: message);
     }
 }
