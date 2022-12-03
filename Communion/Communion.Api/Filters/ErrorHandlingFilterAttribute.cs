@@ -1,3 +1,4 @@
+using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
@@ -9,10 +10,14 @@ public class ErrorHandlingFilterAttribute : ExceptionFilterAttribute
     {
         var exception = context.Exception;
 
-        context.Result = new ObjectResult(new { error = "An error has occured while processing your request." })
+        var problemDetails = new ProblemDetails
         {
-            StatusCode = 500
+            Type = "https://tools.ietf.org/html/rfc7231#section-6.6.1",
+            Title = "An error has occured while processing your request.",
+            Status = (int)HttpStatusCode.InternalServerError,
         };
+
+        context.Result = new ObjectResult(problemDetails);
 
         context.ExceptionHandled = true;
     }
