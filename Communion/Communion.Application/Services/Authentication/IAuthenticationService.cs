@@ -1,8 +1,11 @@
+using Communion.Application.Common.Errors;
+using OneOf;
+
 namespace Communion.Application.Services.Authentication;
 
 public interface IAuthenticationService
 {
-    AuthenticationResult SignUp(string username, string password, string name, string email);
+    OneOf<AuthenticationResult, SignUpError> SignUp(string username, string password, string name, string email);
 
-    AuthenticationResult SignIn(string username, string password, bool remember);
+    OneOf<AuthenticationResult, SignInError> SignIn(string username, string password, bool remember);
 }
