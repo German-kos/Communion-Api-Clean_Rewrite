@@ -33,22 +33,32 @@ public class AuthenticationController : BaseApiController
             name,
             email);
 
-        if (signUpResult.IsT0)
-        {
-            var authResult = signUpResult.AsT0;
-            var response = new AuthenticationResponse(
-                authResult.User.Id,
-                authResult.User.Username,
-                authResult.User.Name,
-                authResult.User.Email,
-                authResult.User.ProfilePicture,
-                authResult.Token,
-                authResult.Remember);
+        return signUpResult.Match(
+            authResult => Ok(MapAuthResult(authResult)),
+            _ => Problem(statusCode: StatusCodes.Status409Conflict, title: string.Join(", ", signUpResult.AsT1.errors.Values))
+        );
 
-            return Ok(response);
-        }
+        // if (signUpResult.IsT0)
+        // {
+        //     var authResult = signUpResult.AsT0;
+        //     AuthenticationResponse response = MapAuthResult(authResult);
 
-        return Problem(statusCode: StatusCodes.Status409Conflict, title: string.Join(", ", signUpResult.AsT1.errors.Values));
+        //     return Ok(response);
+        // }
+
+        // return Problem(statusCode: StatusCodes.Status409Conflict, title: string.Join(", ", signUpResult.AsT1.errors.Values));
+    }
+
+    private static AuthenticationResponse MapAuthResult(AuthenticationResult authResult)
+    {
+        return new AuthenticationResponse(
+                        authResult.User.Id,
+                        authResult.User.Username,
+                        authResult.User.Name,
+                        authResult.User.Email,
+                        authResult.User.ProfilePicture,
+                        authResult.Token,
+                        authResult.Remember);
     }
 
     [HttpPost("sign-in")]
