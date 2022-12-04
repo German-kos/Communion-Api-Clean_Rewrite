@@ -32,24 +32,14 @@ public class AuthenticationController : BaseApiController
             name,
             email);
 
-        return authResult.Match(
+        return authResult.MatchFirst(
             authResult => Ok(MapAuthResult(authResult)),
-            _ => Problem(statusCode: StatusCodes.Status409Conflict, title: "Something already exists")
+            firstError => Problem(statusCode: StatusCodes.Status409Conflict, title: firstError.Description)
         );
 
     }
 
-    private static AuthenticationResponse MapAuthResult(AuthenticationResult authResult)
-    {
-        return new AuthenticationResponse(
-                        authResult.User.Id,
-                        authResult.User.Username,
-                        authResult.User.Name,
-                        authResult.User.Email,
-                        authResult.User.ProfilePicture,
-                        authResult.Token,
-                        authResult.Remember);
-    }
+
 
     [HttpPost("sign-in")]
     public IActionResult SignIn([FromForm] SignInRequest request)
@@ -77,5 +67,17 @@ public class AuthenticationController : BaseApiController
 
 
         return Problem(statusCode: StatusCodes.Status409Conflict, title: "sign in problem");
+    }
+
+    private static AuthenticationResponse MapAuthResult(AuthenticationResult authResult)
+    {
+        return new AuthenticationResponse(
+                        authResult.User.Id,
+                        authResult.User.Username,
+                        authResult.User.Name,
+                        authResult.User.Email,
+                        authResult.User.ProfilePicture,
+                        authResult.Token,
+                        authResult.Remember);
     }
 }

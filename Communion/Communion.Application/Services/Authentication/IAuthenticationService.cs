@@ -7,5 +7,5 @@ public interface IAuthenticationService
 {
     ErrorOr<AuthenticationResult> SignUp(string username, string password, string name, string email);
 
-    AuthenticationResult SignIn(string username, string password, bool remember);
+    ErrorOr<AuthenticationResult> SignIn(string username, string password, bool remember);
 }
