@@ -51,14 +51,20 @@ public class AuthenticationService : IAuthenticationService
 
     public ErrorOr<AuthenticationResult> SignUp(string username, string password, string name, string email)
     {
+        List<Error> errors = new();
 
         // Validate that the user doesn't exist.
         if (_userRepository.DoesUsernameExist(username))
-            return Errors.User.DuplicateUsername;
+            errors.Add(Errors.User.DuplicateUsername);
+        // return Errors.User.DuplicateUsername;
 
         // Validate that the email doesn't exist.
         if (_userRepository.DoesEmailExist(email))
-            return Errors.User.DuplicateEmail;
+            errors.Add(Errors.User.DuplicateEmail);
+        // return Errors.User.DuplicateEmail;
+
+        if (errors.Count() > 0)
+            return errors;
 
         // Create the new user.
         var (hash, key) = _passwordService.EncryptPassword(password);

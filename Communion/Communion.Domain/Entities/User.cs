@@ -16,4 +16,8 @@ public class User
     public string? ProfilePicture { get; set; } // Change to ProfilePicture model
     public DateTime? DateOfBirth { get; set; }
     public DateTime RegistrationDate { get; set; } = DateTime.UtcNow;
+
+    public void Deconstruct(out Guid id, out string username, out string name, out string email, out string profilePicture) =>
+    (id, username, name, email, profilePicture) =
+    (Id, Username, Name, Email, ProfilePicture ?? "None");
 }

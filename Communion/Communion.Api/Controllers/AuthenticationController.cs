@@ -1,4 +1,3 @@
-using Communion.Api.Common.BaseApi;
 using Communion.Application.Services.Authentication;
 using Communion.Contracts.Authentication;
 using ErrorOr;
@@ -32,13 +31,11 @@ public class AuthenticationController : ApiController
             name,
             email);
 
-        return authResult.MatchFirst(
+        return authResult.Match(
             authResult => Ok(MapAuthResult(authResult)),
-            firstError => Problem(statusCode: StatusCodes.Status409Conflict, title: firstError.Description)
-        );
+            errors => Problem(errors));
 
     }
-
 
 
     [HttpPost("sign-in")]
@@ -53,23 +50,24 @@ public class AuthenticationController : ApiController
            remember);
 
 
-        return authResult.MatchFirst(
+        return authResult.Match(
             authResult => Ok(MapAuthResult(authResult)),
-            firstError => Problem(
-                statusCode: StatusCodes.Status409Conflict,
-                title: firstError.Description)
-                );
+            errors => Problem(errors));
     }
 
     private static AuthenticationResponse MapAuthResult(AuthenticationResult authResult)
     {
+        // Deconstruction
+        var (id, username, name, email, profilePicture) = authResult.User;
+        var (token, remember) = (authResult.Token, authResult.Remember);
+
         return new AuthenticationResponse(
-                        authResult.User.Id,
-                        authResult.User.Username,
-                        authResult.User.Name,
-                        authResult.User.Email,
-                        authResult.User.ProfilePicture,
-                        authResult.Token,
-                        authResult.Remember);
+            id,
+            username,
+            name,
+            email,
+            profilePicture,
+            token,
+            remember);
     }
 }
