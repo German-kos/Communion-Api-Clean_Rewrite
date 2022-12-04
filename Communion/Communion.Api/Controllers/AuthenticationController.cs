@@ -1,7 +1,7 @@
 using Communion.Api.Common.BaseApi;
-using Communion.Application.Common.Errors;
 using Communion.Application.Services.Authentication;
 using Communion.Contracts.Authentication;
+using ErrorOr;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Communion.Api.Controllers;
@@ -26,22 +26,16 @@ public class AuthenticationController : BaseApiController
         // Deconstruction
         var (username, password, name, email) = request;
 
-        var signUpResult = _auth.SignUp(
+        ErrorOr<AuthenticationResult> authResult = _auth.SignUp(
             username,
             password,
             name,
             email);
 
-        if (signUpResult.IsSuccess)
-            return Ok(MapAuthResult(signUpResult.Value));
-
-        var firstError = signUpResult.Errors[0];
-
-        if (firstError is SignUpError)
-            return Problem(statusCode: StatusCodes.Status409Conflict, detail: "sign up problem");
-
-        return Problem();
-
+        return authResult.Match(
+            authResult => Ok(MapAuthResult(authResult)),
+            _ => Problem(statusCode: StatusCodes.Status409Conflict, title: "Something already exists")
+        );
 
     }
 

@@ -1,10 +1,10 @@
 using System.Security.Cryptography;
 using System.Text;
-using Communion.Application.Common.Errors;
 using Communion.Application.Common.Interfaces.Authentication;
 using Communion.Application.Common.Interfaces.Persistence;
+using Communion.Domain.Common.Errors;
 using Communion.Domain.Entities;
-using FluentResults;
+using ErrorOr;
 
 namespace Communion.Application.Services.Authentication;
 
@@ -46,16 +46,16 @@ public class AuthenticationService : IAuthenticationService
     }
 
 
-    public Result<AuthenticationResult> SignUp(string username, string password, string name, string email)
+    public ErrorOr<AuthenticationResult> SignUp(string username, string password, string name, string email)
     {
 
         // Validate that the user doesn't exist.
         if (_userRepository.DoesUsernameExist(username))
-            return Result.Fail<AuthenticationResult>(new[] { new SignUpError() });
+            return Errors.User.DuplicateUsername;
 
         // Validate that the email doesn't exist.
         if (_userRepository.DoesEmailExist(email))
-            return Result.Fail<AuthenticationResult>(new[] { new SignUpError() });
+            return Errors.User.DuplicateEmail;
 
         // Create the new user.
         using var hmac = new HMACSHA512();
