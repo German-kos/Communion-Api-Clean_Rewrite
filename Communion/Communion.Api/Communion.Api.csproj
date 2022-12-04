@@ -13,8 +13,4 @@
     <ProjectReference Include="..\Communion.Infrastructure\Communion.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="fluentresults" Version="3.15.1" />
-  </ItemGroup>
-
 </Project>
