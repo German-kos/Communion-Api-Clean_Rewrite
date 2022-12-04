@@ -27,7 +27,7 @@ public class AuthenticationController : BaseApiController
         // Deconstruction
         var (username, password, name, email) = request;
 
-        OneOf<AuthenticationResult, SignUpError> signUpResult = _auth.SignUp(
+        var signUpResult = _auth.SignUp(
             username,
             password,
             name,
