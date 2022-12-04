@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Communion.Api.Controllers;
 
 [Route("api/auth")]
-public class AuthenticationController : BaseApiController
+public class AuthenticationController : ApiController
 {
     // Dependency Injections:
     private readonly IAuthenticationService _auth;
