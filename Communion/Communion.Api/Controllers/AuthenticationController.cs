@@ -3,7 +3,6 @@ using Communion.Application.Common.Errors;
 using Communion.Application.Services.Authentication;
 using Communion.Contracts.Authentication;
 using Microsoft.AspNetCore.Mvc;
-using OneOf;
 
 namespace Communion.Api.Controllers;
 
@@ -33,20 +32,17 @@ public class AuthenticationController : BaseApiController
             name,
             email);
 
-        return signUpResult.Match(
-            authResult => Ok(MapAuthResult(authResult)),
-            _ => Problem(statusCode: StatusCodes.Status409Conflict, title: string.Join(", ", signUpResult.AsT1.errors.Values))
-        );
+        if (signUpResult.IsSuccess)
+            return Ok(MapAuthResult(signUpResult.Value));
 
-        // if (signUpResult.IsT0)
-        // {
-        //     var authResult = signUpResult.AsT0;
-        //     AuthenticationResponse response = MapAuthResult(authResult);
+        var firstError = signUpResult.Errors[0];
 
-        //     return Ok(response);
-        // }
+        if (firstError is SignUpError)
+            return Problem(statusCode: StatusCodes.Status409Conflict, detail: "sign up problem");
 
-        // return Problem(statusCode: StatusCodes.Status409Conflict, title: string.Join(", ", signUpResult.AsT1.errors.Values));
+        return Problem();
+
+
     }
 
     private static AuthenticationResponse MapAuthResult(AuthenticationResult authResult)
@@ -67,26 +63,25 @@ public class AuthenticationController : BaseApiController
         // Deconstruction
         var (username, password, remember) = request;
 
-        OneOf<AuthenticationResult, SignInError> signInResult = _auth.SignIn(
+        var signInResult = _auth.SignIn(
             username,
             password,
             remember);
 
-        if (signInResult.IsT0)
-        {
-            var authResult = signInResult.AsT0;
-            var response = new AuthenticationResponse(
-                authResult.User.Id,
-                authResult.User.Username,
-                authResult.User.Name,
-                authResult.User.Email,
-                authResult.User.ProfilePicture,
-                authResult.Token,
-                authResult.Remember);
 
-            return Ok(response);
-        }
+        var authResult = signInResult;
+        var response = new AuthenticationResponse(
+            authResult.User.Id,
+            authResult.User.Username,
+            authResult.User.Name,
+            authResult.User.Email,
+            authResult.User.ProfilePicture,
+            authResult.Token,
+            authResult.Remember);
 
-        return Problem(statusCode: StatusCodes.Status409Conflict, title: signInResult.AsT1.error);
+        return Ok(response);
+
+
+        return Problem(statusCode: StatusCodes.Status409Conflict, title: "sign in problem");
     }
 }

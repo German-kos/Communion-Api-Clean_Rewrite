@@ -4,7 +4,7 @@ using Communion.Application.Common.Errors;
 using Communion.Application.Common.Interfaces.Authentication;
 using Communion.Application.Common.Interfaces.Persistence;
 using Communion.Domain.Entities;
-using OneOf;
+using FluentResults;
 
 namespace Communion.Application.Services.Authentication;
 
@@ -23,15 +23,15 @@ public class AuthenticationService : IAuthenticationService
     // Methods:
 
 
-    public OneOf<AuthenticationResult, SignInError> SignIn(string username, string password, bool remember)
+    public AuthenticationResult SignIn(string username, string password, bool remember)
     {
         // Validate that the user exists.
         if (_userRepository.GetByUsername(username) is not User user)
-            return new SignInError("User does not exist.");
+            throw new NotImplementedException();
 
         // Validate that passwords match
         if (!PasswordsMatch(password, user))
-            return new SignInError("Wrong password.");
+            throw new NotImplementedException();
 
         var token = _jwtGenerator.GenerateToken(user);
 
@@ -46,20 +46,16 @@ public class AuthenticationService : IAuthenticationService
     }
 
 
-    public OneOf<AuthenticationResult, SignUpError> SignUp(string username, string password, string name, string email)
+    public Result<AuthenticationResult> SignUp(string username, string password, string name, string email)
     {
-        Dictionary<string, string> errors = new();
 
         // Validate that the user doesn't exist.
         if (_userRepository.DoesUsernameExist(username))
-            errors.Add("Username", "Username already exists.");
+            return Result.Fail<AuthenticationResult>(new[] { new SignUpError() });
 
         // Validate that the email doesn't exist.
         if (_userRepository.DoesEmailExist(email))
-            errors.Add("Email", "Email already exists.");
-
-        if (errors.Count > 0)
-            return new SignUpError(errors);
+            return Result.Fail<AuthenticationResult>(new[] { new SignUpError() });
 
         // Create the new user.
         using var hmac = new HMACSHA512();

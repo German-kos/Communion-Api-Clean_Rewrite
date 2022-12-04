@@ -1,11 +1,11 @@
 using Communion.Application.Common.Errors;
-using OneOf;
+using FluentResults;
 
 namespace Communion.Application.Services.Authentication;
 
 public interface IAuthenticationService
 {
-    OneOf<AuthenticationResult, SignUpError> SignUp(string username, string password, string name, string email);
+    Result<AuthenticationResult> SignUp(string username, string password, string name, string email);
 
-    OneOf<AuthenticationResult, SignInError> SignIn(string username, string password, bool remember);
+    AuthenticationResult SignIn(string username, string password, bool remember);
 }
