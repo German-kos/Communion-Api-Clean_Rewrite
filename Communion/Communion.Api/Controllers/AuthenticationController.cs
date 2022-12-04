@@ -47,26 +47,18 @@ public class AuthenticationController : BaseApiController
         // Deconstruction
         var (username, password, remember) = request;
 
-        var signInResult = _auth.SignIn(
-            username,
-            password,
-            remember);
+        ErrorOr<AuthenticationResult> authResult = _auth.SignIn(
+           username,
+           password,
+           remember);
 
 
-        var authResult = signInResult;
-        var response = new AuthenticationResponse(
-            authResult.User.Id,
-            authResult.User.Username,
-            authResult.User.Name,
-            authResult.User.Email,
-            authResult.User.ProfilePicture,
-            authResult.Token,
-            authResult.Remember);
-
-        return Ok(response);
-
-
-        return Problem(statusCode: StatusCodes.Status409Conflict, title: "sign in problem");
+        return authResult.MatchFirst(
+            authResult => Ok(MapAuthResult(authResult)),
+            firstError => Problem(
+                statusCode: StatusCodes.Status409Conflict,
+                title: firstError.Description)
+                );
     }
 
     private static AuthenticationResponse MapAuthResult(AuthenticationResult authResult)
