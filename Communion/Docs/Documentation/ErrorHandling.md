@@ -1,4 +1,4 @@
-# **HOW ERRORS ARE HANDLED**
+# ⚠️ **HOW ERRORS ARE HANDLED** ⚠️
 
 ## *EXPECTED ERRORS*
 
@@ -6,13 +6,12 @@ The domain layer defines the kind of exceptions and errors that are expected to 
 
 ***List of expected errors:***
 
-- [Authentication](https://github.com/German-kos/Communion-Api-Clean_Rewrite/blob/00e9624dc34e09cf7f4813a7872ea1636af7a4a1/Communion/Communion.Domain/Common/Errors/Errors.Authentication.cs#L7-L12) type errors.
-  - [InvalidCredentials.]()
-- [User]() type errors.
-  - [DuplicateUsername.]()
-  - [DuplicateEmail.]()
-  - [BadPassword.]() 
-
+- [Authentication](https://github.com/German-kos/Communion-Api-Clean_Rewrite/blob/main/Communion/Docs/Documentation/ErrorHandling.md#authentication-type-errors) type errors.
+  - [InvalidCredentials.](https://github.com/German-kos/Communion-Api-Clean_Rewrite/blob/main/Communion/Docs/Documentation/ErrorHandling.md#invalidcredentials)
+- [User](https://github.com/German-kos/Communion-Api-Clean_Rewrite/blob/main/Communion/Docs/Documentation/ErrorHandling.md#user-type-errors) type errors.
+  - [DuplicateUsername.](https://github.com/German-kos/Communion-Api-Clean_Rewrite/blob/main/Communion/Docs/Documentation/ErrorHandling.md#duplicateusername)
+  - [DuplicateEmail.](https://github.com/German-kos/Communion-Api-Clean_Rewrite/blob/main/Communion/Docs/Documentation/ErrorHandling.md#duplicateemail)
+  - [BadPassword.](https://github.com/German-kos/Communion-Api-Clean_Rewrite/blob/main/Communion/Docs/Documentation/ErrorHandling.md#badpassword)
 
 ## *UNEXPECTED ERRORS*
 
@@ -20,19 +19,18 @@ The domain layer defines the kind of exceptions and errors that are expected to 
 
 ## *ERRORS OVERVIEW*
 
-- [Authentication Type Errors]().
-- [User Type Errors]().
+- [Authentication Type Errors](https://github.com/German-kos/Communion-Api-Clean_Rewrite/blob/main/Communion/Docs/Documentation/ErrorHandling.md#authentication-type-errors).
+- [User Type Errors](https://github.com/German-kos/Communion-Api-Clean_Rewrite/blob/main/Communion/Docs/Documentation/ErrorHandling.md#user-type-errors).
 
 ### *AUTHENTICATION TYPE ERRORS*
 
 - #### InvalidCredentials
 
-> *[reference.](https://github.com/German-kos/Communion-Api-Clean_Rewrite/blob/c8f8a0f3e1cb0df6aa4defd5064171562c1c5119/Communion/Communion.Domain/Common/Errors/Errors.Authentication.cs#L9-L12)*
+> *[reference.](https://github.com/German-kos/Communion-Api-Clean_Rewrite/blob/c8f8a0f3e1cb0df6aa4defd5064171562c1c5119/Communion/Communion.Domain/Common/Errors/Errors.Authentication.cs#L9-L11)*
 
 A general error to return, when information may be sensitive and might risk an attack.
 
-
-##### Use case exampe
+##### Use case example
 
 ```DOTNET
     // Validate that the user exists.
@@ -46,13 +44,45 @@ A general error to return, when information may be sensitive and might risk an a
 
 > *Code snippet from [AuthenticationQueryService](https://github.com/German-kos/Communion-Api-Clean_Rewrite/blob/c8f8a0f3e1cb0df6aa4defd5064171562c1c5119/Communion/Communion.Application/Services/Authentication/Queries/AuthenticationQueryService.cs#L28-L34).*
 
+##### HTTP Response
+
+```HTTP Response
+HTTP/1.1 400 Bad Request
+Connection: close
+Content-Type: application/problem+json; charset=utf-8
+Date: Mon, 05 Dec 2022 20:09:26 GMT
+Server: Kestrel
+Transfer-Encoding: chunked
+
+{
+  "type": "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+  "title": "Invalid credentials.",
+  "status": 400,
+  "traceId": "00-fb35be8ec4d4e5b3b45b779aaf0343ac-67ad16744ad4cdea-00",
+  "errorCodes": [
+    "Auth.InvalidCred"
+  ],
+  "errorMessages": [
+    "Invalid credentials."
+  ]
+}
+```
 
 ### *USER TYPE ERRORS*
 
 - #### DuplicateUsername
 
-> *[reference.]()*
+> *[reference.](https://github.com/German-kos/Communion-Api-Clean_Rewrite/blob/c8f8a0f3e1cb0df6aa4defd5064171562c1c5119/Communion/Communion.Domain/Common/Errors/Errors.User.cs#L9-L11)*
 
-A part of the sign up form errors, for when a username is already taken.
+A part of the sign up form errors, returned when a username is already in use.
 
+- #### DuplicateEmail
 
+>*[reference.](https://github.com/German-kos/Communion-Api-Clean_Rewrite/blob/c8f8a0f3e1cb0df6aa4defd5064171562c1c5119/Communion/Communion.Domain/Common/Errors/Errors.User.cs#L13-L15)*
+
+A part of the sign up form errors, returned when an email is already in use.
+
+- #### BadPassword
+
+> *[reference](null)*
+> ***Not implemented yet.***
