@@ -1,0 +1,8 @@
+@host=https://localhost:7192
+
+# Sign in request with form
+POST {{host}}/api/auth/sign-in
+Content-Type: application/x-www-form-urlencoded
+
+&Username=JerryS
+&Password=112233
