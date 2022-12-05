@@ -1,30 +1,37 @@
+using Communion.Application.Authentication.Common;
 using Communion.Application.Common.Interfaces.Authentication;
 using Communion.Application.Common.Interfaces.Persistence;
-using Communion.Application.Services.Authentication.Common;
 using Communion.Application.Services.Password;
 using Communion.Domain.Common.Errors;
 using Communion.Domain.Entities;
 using ErrorOr;
+using MediatR;
 
-namespace Communion.Application.Services.Authentication.Commands;
+namespace Communion.Application.Authentication.Commands.SignUp;
 
-public class AuthenticationCommandService : IAuthenticationCommandService
+public class SignUpCommandHandler :
+IRequestHandler<SignUpCommand, ErrorOr<AuthenticationResult>>
 {
-    // Dependency Injections:
+    // Dependency Injections
     private readonly IJwtGenerator _jwtGenerator;
     private readonly IUserRepository _userRepository;
     private readonly IPasswordService _passwordService;
-    public AuthenticationCommandService(IJwtGenerator jwtGenerator, IUserRepository userRepository, IPasswordService passwordService)
+    public SignUpCommandHandler(
+        IJwtGenerator jwtGenerator,
+        IUserRepository userRepository,
+        IPasswordService passwordService)
     {
-        _passwordService = passwordService;
         _jwtGenerator = jwtGenerator;
         _userRepository = userRepository;
+        _passwordService = passwordService;
     }
 
-    // Methods:
-
-    public ErrorOr<AuthenticationResult> SignUp(string username, string password, string name, string email)
+    public async Task<ErrorOr<AuthenticationResult>> Handle(SignUpCommand command, CancellationToken cancellationToken)
     {
+        // Deconstruction
+        var (username, password, name, email) = command;
+
+        // List for possible errors
         List<Error> errors = new();
 
         // Validate that the user doesn't exist.
@@ -60,5 +67,6 @@ public class AuthenticationCommandService : IAuthenticationCommandService
             user,
             token,
             true);
+
     }
 }

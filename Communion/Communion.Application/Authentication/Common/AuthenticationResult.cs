@@ -1,6 +1,6 @@
 using Communion.Domain.Entities;
 
-namespace Communion.Application.Services.Authentication.Common;
+namespace Communion.Application.Authentication.Common;
 
 public record AuthenticationResult
 (

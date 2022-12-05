@@ -1,8 +1,9 @@
-using Communion.Application.Services.Authentication.Commands;
-using Communion.Application.Services.Authentication.Common;
-using Communion.Application.Services.Authentication.Queries;
+using Communion.Application.Authentication.Commands.SignUp;
+using Communion.Application.Authentication.Common;
+using Communion.Application.Authentication.Queries.SignIn;
 using Communion.Contracts.Authentication;
 using ErrorOr;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Communion.Api.Controllers;
@@ -11,14 +12,11 @@ namespace Communion.Api.Controllers;
 public class AuthenticationController : ApiController
 {
     // Dependency Injections:
-    private readonly IAuthenticationCommandService _authCommandService;
-    private readonly IAuthenticationQueryService _authQueryService;
-    public AuthenticationController(
-        IAuthenticationCommandService authCommandService,
-        IAuthenticationQueryService authQueryService)
+    private readonly ISender _mediator;
+
+    protected AuthenticationController(ISender mediator)
     {
-        _authCommandService = authCommandService;
-        _authQueryService = authQueryService;
+        _mediator = mediator;
     }
 
 
@@ -26,34 +24,29 @@ public class AuthenticationController : ApiController
 
 
     [HttpPost("sign-up")]
-    public IActionResult SignUp([FromForm] SignUpRequest request)
+    public async Task<IActionResult> SignUp([FromForm] SignUpRequest request)
     {
         // Deconstruction
         var (username, password, name, email) = request;
 
-        ErrorOr<AuthenticationResult> authResult = _authCommandService.SignUp(
-            username,
-            password,
-            name,
-            email);
+        var command = new SignUpCommand(username, password, name, email);
+
+        ErrorOr<AuthenticationResult> authResult = await _mediator.Send(command);
 
         return authResult.Match(
             authResult => Ok(MapAuthResult(authResult)),
             errors => Problem(errors));
-
     }
 
-
     [HttpPost("sign-in")]
-    public IActionResult SignIn([FromForm] SignInRequest request)
+    public async Task<IActionResult> SignIn([FromForm] SignInRequest request)
     {
         // Deconstruction
         var (username, password, remember) = request;
 
-        ErrorOr<AuthenticationResult> authResult = _authQueryService.SignIn(
-           username,
-           password,
-           remember);
+        var query = new SignInQuery(username, password, remember);
+
+        ErrorOr<AuthenticationResult> authResult = await _mediator.Send(query);
 
 
         return authResult.Match(

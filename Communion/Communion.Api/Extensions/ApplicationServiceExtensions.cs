@@ -1,5 +1,4 @@
 using Communion.Application;
-using Communion.Application.Services.Authentication;
 using Communion.Infrastructure;
 
 namespace Communion.Api.Extensions;

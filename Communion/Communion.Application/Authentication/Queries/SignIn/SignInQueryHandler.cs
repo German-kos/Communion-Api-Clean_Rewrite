@@ -1,30 +1,37 @@
+using Communion.Application.Authentication.Common;
+using Communion.Application.Authentication.Queries.SignIn;
 using Communion.Application.Common.Interfaces.Authentication;
 using Communion.Application.Common.Interfaces.Persistence;
-using Communion.Application.Services.Authentication.Common;
 using Communion.Application.Services.Password;
 using Communion.Domain.Common.Errors;
 using Communion.Domain.Entities;
 using ErrorOr;
+using MediatR;
 
-namespace Communion.Application.Services.Authentication.Queries;
+namespace Communion.Application.Authentication.Commands.SignUp;
 
-public class AuthenticationQueryService : IAuthenticationQueryService
+public class SignInQueryHandler :
+IRequestHandler<SignInQuery, ErrorOr<AuthenticationResult>>
 {
-    // Dependency Injections:
+    // Dependency Injections
     private readonly IJwtGenerator _jwtGenerator;
     private readonly IUserRepository _userRepository;
     private readonly IPasswordService _passwordService;
-    public AuthenticationQueryService(IJwtGenerator jwtGenerator, IUserRepository userRepository, IPasswordService passwordService)
+    public SignInQueryHandler(
+        IJwtGenerator jwtGenerator,
+        IUserRepository userRepository,
+        IPasswordService passwordService)
     {
-        _passwordService = passwordService;
         _jwtGenerator = jwtGenerator;
         _userRepository = userRepository;
+        _passwordService = passwordService;
     }
 
-    // Methods:
-
-    public ErrorOr<AuthenticationResult> SignIn(string username, string password, bool remember)
+    public async Task<ErrorOr<AuthenticationResult>> Handle(SignInQuery query, CancellationToken cancellationToken)
     {
+        // Deconstruction
+        var (username, password, remember) = query;
+
         // Validate that the user exists.
         if (_userRepository.GetByUsername(username) is not User user)
             return Errors.Authentication.InvalidCredentials;
@@ -39,10 +46,5 @@ public class AuthenticationQueryService : IAuthenticationQueryService
             user,
             token,
             remember);
-    }
-
-    public bool Equals(AuthenticationQueryService other)
-    {
-        throw new NotImplementedException();
     }
 }
