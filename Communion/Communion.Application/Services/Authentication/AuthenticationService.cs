@@ -22,9 +22,7 @@ public class AuthenticationService : IAuthenticationService
         _userRepository = userRepository;
     }
 
-
     // Methods:
-
 
     public ErrorOr<AuthenticationResult> SignIn(string username, string password, bool remember)
     {
@@ -38,16 +36,11 @@ public class AuthenticationService : IAuthenticationService
 
         var token = _jwtGenerator.GenerateToken(user);
 
-        string? pfp = user.ProfilePicture;
-        if (pfp is null)
-            pfp = "No pfp";
-
         return new AuthenticationResult(
             user,
             token,
             remember);
     }
-
 
     public ErrorOr<AuthenticationResult> SignUp(string username, string password, string name, string email)
     {
@@ -63,7 +56,7 @@ public class AuthenticationService : IAuthenticationService
             errors.Add(Errors.User.DuplicateEmail);
         // return Errors.User.DuplicateEmail;
 
-        if (errors.Count() > 0)
+        if (errors.Count > 0)
             return errors;
 
         // Create the new user.
@@ -82,23 +75,9 @@ public class AuthenticationService : IAuthenticationService
 
         var token = _jwtGenerator.GenerateToken(user);
 
-
         return new AuthenticationResult(
             user,
             token,
             true);
-    }
-
-
-    private bool PasswordsMatch(string password, User user)
-    {
-        using var hmac = new HMACSHA512(user.PasswordSalt);
-        var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
-
-        for (int i = 0; i < computedHash.Length; i++)
-            if (computedHash[i] != user.PasswordHash[i])
-                return false;
-
-        return true;
     }
 }
