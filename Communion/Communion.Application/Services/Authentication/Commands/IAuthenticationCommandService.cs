@@ -1,11 +1,9 @@
-using Communion.Application.Common.Errors;
+using Communion.Application.Services.Authentication.Common;
 using ErrorOr;
 
 namespace Communion.Application.Services.Authentication;
 
-public interface IAuthenticationService
+public interface IAuthenticationCommandService
 {
     ErrorOr<AuthenticationResult> SignUp(string username, string password, string name, string email);
-
-    ErrorOr<AuthenticationResult> SignIn(string username, string password, bool remember);
 }

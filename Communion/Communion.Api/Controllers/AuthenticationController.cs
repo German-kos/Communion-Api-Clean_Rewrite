@@ -9,8 +9,8 @@ namespace Communion.Api.Controllers;
 public class AuthenticationController : ApiController
 {
     // Dependency Injections:
-    private readonly IAuthenticationService _auth;
-    public AuthenticationController(IAuthenticationService auth)
+    private readonly IAuthenticationCommandService _auth;
+    public AuthenticationController(IAuthenticationCommandService auth)
     {
         _auth = auth;
     }
