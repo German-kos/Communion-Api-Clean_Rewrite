@@ -14,7 +14,7 @@ public class ErrorsController : ControllerBase
         // var (statusCode, message) = exception switch
         // {
         //     IServiceException serviceException => ((int)serviceException.statusCode, serviceException.ErrorMessage),
-        //     _ => (StatusCodes.Status500InternalServerError, "An unexpected error has occured.")
+        //     _ => (StatusCodes.Status500InternalServerError, "An unexpected error has occurred.")
         // };
 
         // return Problem(statusCode: statusCode, title: message);
