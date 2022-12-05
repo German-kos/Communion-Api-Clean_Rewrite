@@ -4,7 +4,7 @@
 
 **How the content of the error looks like:**
 
-```c#
+```DOTNET
 var problemDetails = new ProblemDetails
     {
         Type = "https://tools.ietf.org/html/rfc7231#section-6.6.1",
