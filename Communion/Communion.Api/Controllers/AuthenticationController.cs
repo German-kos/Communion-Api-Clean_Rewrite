@@ -1,4 +1,6 @@
-using Communion.Application.Services.Authentication;
+using Communion.Application.Services.Authentication.Commands;
+using Communion.Application.Services.Authentication.Common;
+using Communion.Application.Services.Authentication.Queries;
 using Communion.Contracts.Authentication;
 using ErrorOr;
 using Microsoft.AspNetCore.Mvc;
@@ -9,10 +11,14 @@ namespace Communion.Api.Controllers;
 public class AuthenticationController : ApiController
 {
     // Dependency Injections:
-    private readonly IAuthenticationCommandService _auth;
-    public AuthenticationController(IAuthenticationCommandService auth)
+    private readonly IAuthenticationCommandService _authCommandService;
+    private readonly IAuthenticationQueryService _authQueryService;
+    public AuthenticationController(
+        IAuthenticationCommandService authCommandService,
+        IAuthenticationQueryService authQueryService)
     {
-        _auth = auth;
+        _authCommandService = authCommandService;
+        _authQueryService = authQueryService;
     }
 
 
@@ -25,7 +31,7 @@ public class AuthenticationController : ApiController
         // Deconstruction
         var (username, password, name, email) = request;
 
-        ErrorOr<AuthenticationResult> authResult = _auth.SignUp(
+        ErrorOr<AuthenticationResult> authResult = _authCommandService.SignUp(
             username,
             password,
             name,
@@ -44,7 +50,7 @@ public class AuthenticationController : ApiController
         // Deconstruction
         var (username, password, remember) = request;
 
-        ErrorOr<AuthenticationResult> authResult = _auth.SignIn(
+        ErrorOr<AuthenticationResult> authResult = _authQueryService.SignIn(
            username,
            password,
            remember);

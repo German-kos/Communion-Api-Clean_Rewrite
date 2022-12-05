@@ -1,7 +1,7 @@
 using Communion.Application.Services.Authentication.Common;
 using ErrorOr;
 
-namespace Communion.Application.Services.Authentication;
+namespace Communion.Application.Services.Authentication.Queries;
 
 public interface IAuthenticationQueryService
 {

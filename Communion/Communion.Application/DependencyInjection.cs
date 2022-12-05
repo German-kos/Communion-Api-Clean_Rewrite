@@ -1,4 +1,3 @@
-using Communion.Application.Services.Authentication;
 using Communion.Application.Services.Authentication.Commands;
 using Communion.Application.Services.Authentication.Queries;
 using Communion.Application.Services.Password;
