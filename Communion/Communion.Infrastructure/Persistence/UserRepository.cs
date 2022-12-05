@@ -11,21 +11,18 @@ public class UserRepository : IUserRepository
         _users.Add(user);
     }
 
-
     public User? GetByUsername(string username)
     {
-        return _users.SingleOrDefault(u => u.Username.ToLower() == username.ToLower());
+        return _users.SingleOrDefault(u => string.Equals(u.Username, username, StringComparison.OrdinalIgnoreCase));
     }
-
 
     public bool DoesEmailExist(string email)
     {
-        return _users.Any(u => u.Email.ToLower() == email.ToLower());
+        return _users.Any(u => string.Equals(u.Email, email, StringComparison.OrdinalIgnoreCase));
     }
-
 
     public bool DoesUsernameExist(string username)
     {
-        return _users.Any(u => u.Username.ToLower() == username.ToLower());
+        return _users.Any(u => string.Equals(u.Username, username, StringComparison.OrdinalIgnoreCase));
     }
 }
