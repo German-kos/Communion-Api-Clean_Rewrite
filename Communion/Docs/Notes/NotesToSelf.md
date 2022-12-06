@@ -4,7 +4,8 @@
 - change the Username to be DisplayName
 - change layer location of the password service
 - write an explanation about CQRS and MediatR, the differences, and why I chose MediatR
-- write about ErrorOr(?)
+- write and explain about ErrorOr(?)
+- write and explain about FluentValidation and the application validation pipeline
 - look into SignalR
 - if there's spare time left after finishing the project, look into making an instant messaging micro-service
 
