@@ -1,5 +1,7 @@
 # ⚠️ **HOW ERRORS ARE HANDLED** ⚠️
 
+> 📢 ***Keep in mind that links may be broken or lead to wrong lines as the project is still being worked on. The documentations and notes will eventually be fixed.***
+
 ## *EXPECTED ERRORS*
 
 The domain layer defines the kind of exceptions and errors that are expected to come up in the application, and that might be needed in more than project layer.
