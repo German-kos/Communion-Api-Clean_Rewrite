@@ -14,7 +14,7 @@ public class AuthenticationController : ApiController
     // Dependency Injections:
     private readonly ISender _mediator;
 
-    protected AuthenticationController(ISender mediator)
+    public AuthenticationController(ISender mediator)
     {
         _mediator = mediator;
     }
