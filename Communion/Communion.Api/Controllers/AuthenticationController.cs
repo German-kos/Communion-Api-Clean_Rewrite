@@ -22,9 +22,7 @@ public class AuthenticationController : ApiController
         _mapper = mapper;
     }
 
-
     // Controllers:
-
 
     [HttpPost("sign-up")]
     public async Task<IActionResult> SignUp([FromForm] SignUpRequest request)
@@ -56,7 +54,6 @@ public class AuthenticationController : ApiController
         var query = _mapper.Map<SignInQuery>(request);
 
         ErrorOr<AuthenticationResult> authResult = await _mediator.Send(query);
-
 
         return authResult.Match(
             authResult => Ok(_mapper.Map<AuthenticationResponse>(authResult)),

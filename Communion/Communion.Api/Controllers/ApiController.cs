@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Communion.Api.Controllers;
 
+[Route("api/[controller]")]
 [ApiController]
 public class ApiController : ControllerBase
 {
