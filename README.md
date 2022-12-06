@@ -1,3 +1,3 @@
-currently in testing phase, will migrate code soon
+# Readme
 
-jwt demo finished
+Currently in testing phase, will migrate code soon from _**[old version](https://github.com/German-kos/Communion-Api)**_.
