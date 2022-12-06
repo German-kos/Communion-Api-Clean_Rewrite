@@ -28,6 +28,9 @@ IRequestHandler<SignInQuery, ErrorOr<AuthenticationResult>>
 
     public async Task<ErrorOr<AuthenticationResult>> Handle(SignInQuery query, CancellationToken cancellationToken)
     {
+        // Temporary await, remove when this method is made async
+        await Task.CompletedTask;
+
         // Deconstruction
         var (username, password, remember) = query;
 
