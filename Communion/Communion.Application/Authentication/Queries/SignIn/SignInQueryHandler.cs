@@ -1,5 +1,4 @@
 using Communion.Application.Authentication.Common;
-using Communion.Application.Authentication.Queries.SignIn;
 using Communion.Application.Common.Interfaces.Authentication;
 using Communion.Application.Common.Interfaces.Persistence;
 using Communion.Application.Services.Password;
@@ -8,7 +7,7 @@ using Communion.Domain.Entities;
 using ErrorOr;
 using MediatR;
 
-namespace Communion.Application.Authentication.Commands.SignUp;
+namespace Communion.Application.Authentication.Queries.SignIn;
 
 public class SignInQueryHandler :
 IRequestHandler<SignInQuery, ErrorOr<AuthenticationResult>>
