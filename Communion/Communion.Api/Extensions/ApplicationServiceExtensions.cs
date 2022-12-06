@@ -7,12 +7,12 @@ public static class ServiceExtensions
 {
     public static IServiceCollection AddServices(
         this IServiceCollection services,
-        IConfiguration config)
+        ConfigurationManager configuration)
     {
         // Add services from other layers
         services
             .AddApplication()
-            .AddInfrastructure(config);
+            .AddInfrastructure(configuration);
 
         return services;
     }

@@ -5,11 +5,13 @@ using Communion.Contracts.Authentication;
 using ErrorOr;
 using MapsterMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Communion.Api.Controllers;
 
 [Route("api/auth")]
+[AllowAnonymous]
 public class AuthenticationController : ApiController
 {
     // Dependency Injections:
