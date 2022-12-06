@@ -5,7 +5,9 @@ namespace Communion.Api.Extensions;
 
 public static class ServiceExtensions
 {
-    public static IServiceCollection AddServices(this IServiceCollection services, IConfiguration config)
+    public static IServiceCollection AddServices(
+        this IServiceCollection services,
+        IConfiguration config)
     {
         // Add services from other layers
         services

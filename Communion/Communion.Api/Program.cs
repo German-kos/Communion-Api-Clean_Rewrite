@@ -1,16 +1,13 @@
-using Communion.Api.Common.Errors;
-using Communion.Api.Extensions;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Communion.Api;
+using Communion.Application;
+using Communion.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 {
-    builder.Services.AddServices(builder.Configuration);
-
-    builder.Services.AddControllers();
-
-    builder.Services.AddSingleton<ProblemDetailsFactory, CommunionProblemDetailsFactory>();
-
-    builder.Services.AddEndpointsApiExplorer();
+    builder.Services
+        .AddPresentation()
+        .AddApplication()
+        .AddInfrastructure(builder.Configuration);
 }
 
 var app = builder.Build();

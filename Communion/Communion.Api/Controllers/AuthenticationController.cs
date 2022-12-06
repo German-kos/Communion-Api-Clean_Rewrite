@@ -3,6 +3,7 @@ using Communion.Application.Authentication.Common;
 using Communion.Application.Authentication.Queries.SignIn;
 using Communion.Contracts.Authentication;
 using ErrorOr;
+using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,10 +14,12 @@ public class AuthenticationController : ApiController
 {
     // Dependency Injections:
     private readonly ISender _mediator;
+    private readonly IMapper _mapper;
 
-    public AuthenticationController(ISender mediator)
+    public AuthenticationController(ISender mediator, IMapper mapper)
     {
         _mediator = mediator;
+        _mapper = mapper;
     }
 
 
@@ -29,12 +32,15 @@ public class AuthenticationController : ApiController
         // Deconstruction
         var (username, password, name, email) = request;
 
-        var command = new SignUpCommand(username, password, name, email);
+        // VVV remove after verifying mapper works correctly VVV
+        // var command = new SignUpCommand(username, password, name, email);
+
+        var command = _mapper.Map<SignUpCommand>(request);
 
         ErrorOr<AuthenticationResult> authResult = await _mediator.Send(command);
 
         return authResult.Match(
-            authResult => Ok(MapAuthResult(authResult)),
+            authResult => Ok(_mapper.Map<AuthenticationResponse>(authResult)),
             errors => Problem(errors));
     }
 
@@ -44,29 +50,16 @@ public class AuthenticationController : ApiController
         // Deconstruction
         var (username, password, remember) = request;
 
-        var query = new SignInQuery(username, password, remember);
+        // VVV remove after verifying mapper works correctly VVV
+        // var query = new SignInQuery(username, password, remember);
+
+        var query = _mapper.Map<SignInQuery>(request);
 
         ErrorOr<AuthenticationResult> authResult = await _mediator.Send(query);
 
 
         return authResult.Match(
-            authResult => Ok(MapAuthResult(authResult)),
+            authResult => Ok(_mapper.Map<AuthenticationResponse>(authResult)),
             errors => Problem(errors));
-    }
-
-    private static AuthenticationResponse MapAuthResult(AuthenticationResult authResult)
-    {
-        // Deconstruction
-        var (id, username, name, email, profilePicture) = authResult.User;
-        var (token, remember) = (authResult.Token, authResult.Remember);
-
-        return new AuthenticationResponse(
-            id,
-            username,
-            name,
-            email,
-            profilePicture,
-            token,
-            remember);
     }
 }
