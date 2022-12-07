@@ -12,3 +12,9 @@
 > Important expected bug/error: when I'll implement the ProfilePicture entity, it will no longer be a string, so in the `AuthenticationMappingConfig` I'll have to change how the result is mapped to the response.
 > Also need to make entities for Comments(Comment) and Posts(Post) and change the fields in the user entity.
 > Not user specific => Also need to make a Category and Topic(Rename from SubCategory) entities.
+
+## Aggregate Rules
+
+- Reference other aggregates by ID
+- Changes are committed & rolled back as a whole
+- Changes to an aggregate are done via the root
