@@ -9,6 +9,8 @@ class Post
     Post Delete();
     Post Update();
     Post AddView();
+    Post AddLike();
+    Post SubtractLike();
 }
 ```
 
