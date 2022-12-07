@@ -6,8 +6,8 @@
 class Topic
 {
     Topic Create();
-    Topic Delete();
-    Topic Update();
+    Topic RemovePost();
+    Topic Rename();
 }
 ```
 
@@ -17,9 +17,9 @@ class Topic
     "categoryId": "{Parent Category ID}",
     "name": "Topic Name",
     "posts": [
-        {"post 1 obj..."},
-        {"post 2 obj..."},
-        {"post 3 obj..."},
+        "{Post 1 ID}",
+        "{Post 2 ID}",
+        "{Post 3 ID}",
     ],
     "creationDateTime": "{DateTime of Creation}",
     "updateDateTime": "{DateTime of Last Update}",
