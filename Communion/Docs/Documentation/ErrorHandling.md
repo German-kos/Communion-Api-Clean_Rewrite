@@ -34,7 +34,7 @@ A general error to return, when information may be sensitive and might risk an a
 
 ##### Use case example
 
-```DOTNET
+```csharp
     // Validate that the user exists.
     if (_userRepository.GetByUsername(username) is not User user)
         return Errors.Authentication.InvalidCredentials;
@@ -48,7 +48,7 @@ A general error to return, when information may be sensitive and might risk an a
 
 ##### HTTP Response
 
-```HTTP Response
+```HTTP
 HTTP/1.1 400 Bad Request
 Connection: close
 Content-Type: application/problem+json; charset=utf-8
