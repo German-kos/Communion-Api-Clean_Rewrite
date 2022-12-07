@@ -14,8 +14,8 @@ class Topic
 ```json
 {
     "id": "{Topic ID}",
-    "name": "Topic Name",
     "categoryId": "{Parent Category ID}",
+    "name": "Topic Name",
     "posts": [
         {"post 1 obj..."},
         {"post 2 obj..."},

@@ -17,6 +17,7 @@ class Post
 ```json
 {
     "id": "{Post ID}",
+    "topicId": "{Parent Topic ID}",
     "title": "{Post Title}",
     "author": {"author obj"},
     "content": "{Post Content}",
