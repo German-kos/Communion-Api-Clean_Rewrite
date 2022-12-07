@@ -20,6 +20,8 @@ class Topic
         {"post 1 obj..."},
         {"post 2 obj..."},
         {"post 3 obj..."},
-    ]
+    ],
+    "creationDateTime": "{DateTime of Creation}",
+    "updateDateTime": "{DateTime of Last Update}",
 }
 ```
