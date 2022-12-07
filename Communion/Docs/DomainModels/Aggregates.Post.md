@@ -19,7 +19,7 @@ class Post
     "id": "{Post ID}",
     "topicId": "{Parent Topic ID}",
     "title": "{Post Title}",
-    "author": {"author obj"},
+    "author": "Author's User ID",
     "content": "{Post Content}",
     "viewCount": "{Amount of Views}",
     "commentCount": "{Amount of Comments}",
@@ -28,6 +28,9 @@ class Post
         {"comment 1 obj..."},
         {"comment 2 obj..."},
         {"comment 3 obj..."},
-    ]
+    ],
+    "creationDateTime": "{DateTime of Creation}",
+    "updateDateTime": "{DateTime of Last Update}",
+    "isModified": "{Was Updated Bool}",
 }
 ```
