@@ -11,6 +11,7 @@ public class User
     public string Bio { get; set; } = "Not specified.";
     public string Gender { get; set; } = "Not specified";
     public bool IsAdmin { get; set; } = false;
+    public bool IsBanned { get; set; } = false;
     public List<string> Comments { get; set; } = new(); // Change to list of Comments
     public List<string> Posts { get; set; } = new();  // Change to list of Posts
     public string? ProfilePicture { get; set; } // Change to ProfilePicture model
