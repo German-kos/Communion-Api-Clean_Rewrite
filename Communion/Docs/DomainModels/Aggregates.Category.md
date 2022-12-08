@@ -6,8 +6,11 @@
 class Category
 {
     Category Create();
-    Category Delete();
-    Category Update();
+    Category Rename();
+    Category UpdateBanner();
+    Category CreateTopic();
+    Category RenameTopic();
+    Category RemoveTopic();
 }
 ```
 
@@ -15,13 +18,15 @@ class Category
 {
     "id": "{Category ID}",
     "name": "{Category Name}",
-    "banner": "{banner url}",
+    "banner": {"banner obj"},
     "topics":[
         {"topic 1 obj..."},
         {"topic 2 obj..."},
         {"topic 3 obj..."},
     ],
     "creationDateTime": "{DateTime of Creation}",
-    "updateDateTime": "{DateTime of Last Update}"
+    "updateDateTime": "{DateTime of Last Update}",
+    "isModified": "{Was Updated Bool}",
+    "whoModified": "{Username of Who Modified}",
 }
 ```
