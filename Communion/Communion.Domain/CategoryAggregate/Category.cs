@@ -83,6 +83,10 @@ public sealed class Category : AggregateRoot<CategoryId>
         if (_topics.Count >= Predefined.MaxTopicAmount)
             return Errors.Category.MaxTopicAmount;
 
+        bool topicExists = _topics.Any(t => string.Equals(t.Name, name, StringComparison.OrdinalIgnoreCase));
+        if (topicExists)
+            return Errors.Category.TopicExists;
+
         _topics.Add(
             Topic.Create(
                 Id,

@@ -13,5 +13,9 @@ public static partial class Errors
         public static Error MaxTopicAmount => Error.Conflict(
             code: "Category.MaxTopicAmount",
             description: "Category has reached the maximum amount of topics allowed.");
+
+        public static Error TopicExists => Error.Conflict(
+            code: "Category.TopicExists",
+            description: "Topic already exists.");
     }
 }
