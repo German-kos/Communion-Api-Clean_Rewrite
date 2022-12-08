@@ -10,7 +10,7 @@ public class DuplicateEmailException : Exception, IServiceException
 
     public DuplicateEmailException(string? message, Exception? innerException) : base(message, innerException) { }
 
-    public HttpStatusCode statusCode => HttpStatusCode.Conflict;
+    public HttpStatusCode StatusCode => HttpStatusCode.Conflict;
 
     public string ErrorMessage => "Email already exists.";
 }

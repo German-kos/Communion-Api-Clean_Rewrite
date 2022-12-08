@@ -9,7 +9,7 @@ public class WrongPasswordException : Exception, IServiceException
 
     public WrongPasswordException(string? message, Exception? innerException) : base(message, innerException) { }
 
-    public HttpStatusCode statusCode => HttpStatusCode.Conflict;
+    public HttpStatusCode StatusCode => HttpStatusCode.Conflict;
 
     public string ErrorMessage => "Wrong password.";
 }

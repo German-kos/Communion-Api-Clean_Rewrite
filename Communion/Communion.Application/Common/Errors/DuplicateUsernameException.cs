@@ -10,7 +10,7 @@ public class DuplicateUsernameException : Exception, IServiceException
 
     public DuplicateUsernameException(string? message, Exception? innerException) : base(message, innerException) { }
 
-    public HttpStatusCode statusCode => HttpStatusCode.Conflict;
+    public HttpStatusCode StatusCode => HttpStatusCode.Conflict;
 
     public string ErrorMessage => "Username already exists.";
 }
