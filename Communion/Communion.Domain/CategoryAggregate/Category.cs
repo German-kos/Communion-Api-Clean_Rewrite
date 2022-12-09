@@ -13,7 +13,7 @@ public sealed class Category : AggregateRoot<CategoryId>
     // Private fields
     private string _name;
     private Banner _banner;
-    private List<Topic> _topics => new();
+    private List<Topic> _topics;
     private DateTime _updateDateTime;
     private bool _isModified;
     private string _whoModified;
@@ -21,7 +21,7 @@ public sealed class Category : AggregateRoot<CategoryId>
     // Getters
     public string Name => _name;
     public Banner Banner => _banner;
-    public IReadOnlyList<Topic> Topics => _topics;
+    public List<Topic> Topics => _topics;
     public DateTime UpdateDateTime => _updateDateTime;
     public bool IsModified => _isModified;
     public string WhoModified => _whoModified;
@@ -34,26 +34,33 @@ public sealed class Category : AggregateRoot<CategoryId>
         CategoryId categoryId,
         string name,
         Banner banner,
+        Topic topic,
         string username)
         : base(categoryId)
     {
         _name = name;
         _banner = banner;
+        _topics = new() { topic };
+        // _topics.Add(topic);
         CreationDateTime = _updateDateTime = DateTime.UtcNow;
         _whoModified = username;
     }
 
     // Methods
     public static Category Create(
-        string name,
+        string categoryName,
         string bannerPublicId,
         string bannerUrl,
+        string topicName,
         string username)
     {
+        var categoryId = CategoryId.CreateUnique();
+
         return new(
-            CategoryId.CreateUnique(),
-            name,
+            categoryId,
+            categoryName,
             Banner.Create(bannerPublicId, bannerUrl),
+            Topic.Create(categoryId, topicName, username),
             username);
     }
 
@@ -93,8 +100,7 @@ public sealed class Category : AggregateRoot<CategoryId>
                 name,
                 username));
 
-        if (_topics.Count > 0 || _isModified)
-            LogUpdate(username);
+        LogUpdate(username);
 
         return this;
     }
