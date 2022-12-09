@@ -39,6 +39,9 @@ public class CategoriesController : ApiController
         var command = _mapper.Map<CreateCategoryCommand>((request, User.GetUsername(), tempId, tempUrl));
 
         var createCategoryResult = await _mediator.Send(command);
-        return Ok(createCategoryResult);
+
+        return createCategoryResult.Match(
+            category => Ok(_mapper.Map<CategoryResponse>(category)),
+            errors => Problem(errors));
     }
 }
