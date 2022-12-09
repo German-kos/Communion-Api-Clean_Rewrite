@@ -5,6 +5,6 @@ POST {{host}}/api/auth/sign-up
 Content-Type: application/x-www-form-urlencoded
 
 &Username=JerryS
-&Password=112233
+&Password=11223344
 &Name=Jerry
 &Email=jerryseinfeld@mail.com
