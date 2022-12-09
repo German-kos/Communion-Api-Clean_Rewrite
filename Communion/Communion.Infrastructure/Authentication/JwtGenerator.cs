@@ -33,10 +33,10 @@ public class JwtGenerator : IJwtGenerator
             );
 
 
-        var claims = new[]
+        var claims = new List<Claim>
         {
-        new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
         new Claim(JwtRegisteredClaimNames.NameId, user.Username),
+        new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
         new Claim(JwtRegisteredClaimNames.Name, user.Name),
         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
@@ -44,8 +44,8 @@ public class JwtGenerator : IJwtGenerator
         var securityToken = new JwtSecurityToken(
             issuer: _options.Issuer,
             audience: _options.Audience,
-            expires: _time.UtcNow.AddDays(_options.ExpiryDays),
             claims: claims,
+            expires: _time.UtcNow.AddDays(_options.ExpiryDays),
         signingCredentials: signingCredentials);
 
         return new JwtSecurityTokenHandler().WriteToken(securityToken);
