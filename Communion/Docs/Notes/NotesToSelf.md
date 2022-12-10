@@ -16,3 +16,5 @@
 > When making endpoints to list the aggregates, look for if there's an option to list the aggregates (like a list of Posts) without their inner list of aggregates/entities
 >> For example: when we need a list of **Posts** we don't necessarily need the list of comments, but when we want to see what's inside we do.
 >>> if we'll try and get all the comments for all the posts within a single topic, it might take too long because when there are a lot of posts and comments, that's 2 layers to sift through.
+</br>
+> Create separate records for the banner and topics in the category response
