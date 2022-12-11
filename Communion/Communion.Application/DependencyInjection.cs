@@ -2,6 +2,7 @@ using System.Reflection;
 using Communion.Application.Authentication.Commands.SignUp;
 using Communion.Application.Authentication.Common;
 using Communion.Application.Common.Behaviors;
+using Communion.Application.Common.Interfaces.Services;
 using Communion.Application.Services.CloudinaryService;
 using Communion.Application.Services.Password;
 using ErrorOr;
@@ -23,6 +24,7 @@ public static class DependencyInjection
             typeof(IPipelineBehavior<,>),
             typeof(ValidationBehavior<,>));
 
+        services.AddScoped<IImageService, ImageService>();
         services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));
 
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
