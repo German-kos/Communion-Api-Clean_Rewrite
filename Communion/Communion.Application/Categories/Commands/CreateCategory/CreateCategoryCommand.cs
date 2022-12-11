@@ -1,7 +1,6 @@
 using Communion.Domain.CategoryAggregate;
 using ErrorOr;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 
 namespace Communion.Application.Categories.Commands.CreateCategory;
 
