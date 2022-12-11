@@ -17,7 +17,6 @@ public class AuthenticationController : ApiController
     // Dependency Injections:
     private readonly ISender _mediator;
     private readonly IMapper _mapper;
-
     public AuthenticationController(ISender mediator, IMapper mapper)
     {
         _mediator = mediator;
@@ -49,9 +48,6 @@ public class AuthenticationController : ApiController
     {
         // Deconstruction
         var (username, password, remember) = request;
-
-        // VVV remove after verifying mapper works correctly VVV
-        // var query = new SignInQuery(username, password, remember);
 
         var query = _mapper.Map<SignInQuery>(request);
 
