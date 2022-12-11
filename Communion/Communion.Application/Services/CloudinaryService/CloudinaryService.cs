@@ -6,11 +6,11 @@ using Microsoft.Extensions.Options;
 
 namespace Communion.Application.Services.CloudinaryService;
 
-public class CloudinaryService : IImageService
+public class ImageService : IImageService
 {
     // Dependency Injections:
     private readonly Cloudinary _cloudinary;
-    public CloudinaryService(IOptions<CloudinarySettings> config)
+    public ImageService(IOptions<CloudinarySettings> config)
     {
         _cloudinary = new Cloudinary(
             new Account(
