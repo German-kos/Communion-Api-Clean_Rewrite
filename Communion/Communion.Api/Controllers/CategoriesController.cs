@@ -1,6 +1,6 @@
-using System.Security.Claims;
 using Communion.Api.Extensions;
 using Communion.Application.Categories.Commands.CreateCategory;
+using Communion.Application.Common.Interfaces.Services;
 using Communion.Contracts.Categories;
 using MapsterMapper;
 using MediatR;
@@ -13,13 +13,18 @@ namespace Communion.Api.Controllers;
 [Route("api/admin/categories")]
 public class CategoriesController : ApiController
 {
-    private ISender _mediator;
+    // Dependency Injections:
+    private readonly ISender _mediator;
     private readonly IMapper _mapper;
-    public CategoriesController(IMapper mapper, ISender mediator)
+    private readonly IImageService _imageService;
+    public CategoriesController(IMapper mapper, ISender mediator, IImageService imageService)
     {
+        _imageService = imageService;
         _mediator = mediator;
         _mapper = mapper;
     }
+
+    // Controllers:
 
     [HttpGet]
     [AllowAnonymous]
@@ -32,11 +37,11 @@ public class CategoriesController : ApiController
     [Authorize]
     public async Task<IActionResult> CreateCategory([FromForm] CreateCategoryRequest request)
     {
-        // Temporary values to resolve the IFormFile enumeration problem, remove after fixing with with Cloudinary middleware (remove from command line as well)
-        string tempId = "TempId";
-        string tempUrl = "TempUrl";
+        var username = User.GetUsername();
 
-        var command = _mapper.Map<CreateCategoryCommand>((request, User.GetUsername(), tempId, tempUrl));
+        var uploadBannerResult = await _imageService.UploadBannerAsync(request.BannerImage);
+
+        var command = _mapper.Map<CreateCategoryCommand>((request, username, uploadBannerResult.PublicId, uploadBannerResult.SecureUrl.AbsoluteUri));
 
         var createCategoryResult = await _mediator.Send(command);
 
