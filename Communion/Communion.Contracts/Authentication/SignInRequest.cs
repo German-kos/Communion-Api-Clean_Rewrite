@@ -1,8 +1,6 @@
 namespace Communion.Contracts.Authentication;
 
-public record SignInRequest
-(
+public record SignInRequest(
     string Username,
     string Password,
-    bool Remember
-);
+    bool Remember);
