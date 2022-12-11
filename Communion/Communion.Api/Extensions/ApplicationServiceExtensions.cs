@@ -3,6 +3,7 @@ using Communion.Infrastructure;
 
 namespace Communion.Api.Extensions;
 
+// not in use remove later
 public static class ServiceExtensions
 {
     public static IServiceCollection AddServices(
@@ -11,7 +12,7 @@ public static class ServiceExtensions
     {
         // Add services from other layers
         services
-            .AddApplication()
+            // .AddApplication()
             .AddInfrastructure(configuration);
 
         return services;
