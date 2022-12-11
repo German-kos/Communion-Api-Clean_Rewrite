@@ -2,17 +2,19 @@ using System.Reflection;
 using Communion.Application.Authentication.Commands.SignUp;
 using Communion.Application.Authentication.Common;
 using Communion.Application.Common.Behaviors;
+using Communion.Application.Services.CloudinaryService;
 using Communion.Application.Services.Password;
 using ErrorOr;
 using FluentValidation;
 using MediatR;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Communion.Application;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddApplication(this IServiceCollection services)
+    public static IServiceCollection AddApplication(this IServiceCollection services, IConfiguration config)
     {
         services.AddMediatR(typeof(DependencyInjection).Assembly);
 
@@ -20,6 +22,8 @@ public static class DependencyInjection
         services.AddScoped(
             typeof(IPipelineBehavior<,>),
             typeof(ValidationBehavior<,>));
+
+        services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));
 
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
