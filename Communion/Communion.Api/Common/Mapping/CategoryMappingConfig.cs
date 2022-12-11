@@ -1,6 +1,8 @@
 using Communion.Application.Categories.Commands.CreateCategory;
 using Communion.Contracts.Categories;
+using Communion.Domain.Category.Entities;
 using Communion.Domain.CategoryAggregate;
+using Communion.Domain.CategoryAggregate.Entities;
 using Mapster;
 
 namespace Communion.Api.Common.Mapping;
@@ -17,6 +19,12 @@ public class CategoryMappingConfig : IRegister
 
         config.NewConfig<Category, CategoryResponse>()
             .Map(dest => dest.Id, src => src.Id.Value);
-        // .Map(dest => dest.Topics, src => src.Topics.Select(topic => topic.Id.Value));
+
+        config.NewConfig<Banner, BannerResponse>()
+            .Map(dest => dest.Id, src => src.Id.Value);
+
+        config.NewConfig<Topic, TopicResponse>()
+            .Map(dest => dest.Id, src => src.Id.Value)
+            .Map(dest => dest.CategoryId, src => src.CategoryId.Value);
     }
 }
