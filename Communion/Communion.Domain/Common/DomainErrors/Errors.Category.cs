@@ -6,6 +6,10 @@ public static partial class Errors
 {
     public static class Category
     {
+        public static Error CategoryNameExists => Error.Conflict(
+            code: "Category.CategoryNameExists",
+            description: "Requested category name is already in use by another category.");
+
         public static Error CategoryNotFound => Error.Conflict(
             code: "Category.CategoryNotFound",
             description: "Requested category does not exist.");
