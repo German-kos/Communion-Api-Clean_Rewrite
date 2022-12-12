@@ -18,8 +18,8 @@ Post /api/admin/categories/edit-category
 // empty if there is no desire to change them, but not both.
 {
     "CategoryId": "The category's ID", // Provide the id of the desired category
-    "Name": "The category's new name", // Provide a name to change the name of the category
-    "BannerImage": "An image for the new banner", // Provide an image to update the banner of the category
+    "NewCategoryName": "The category's new name", // Provide a name to change the name of the category
+    "NewBannerImage": "An image for the new banner", // Provide an image to update the banner of the category
 }
 ```
 
