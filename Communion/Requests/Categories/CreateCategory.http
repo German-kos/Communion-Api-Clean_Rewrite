@@ -2,7 +2,7 @@
 @token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJKZXJyeVNhIiwic3ViIjoiNDNkOTE5MDQtZGE2OS00YTQ2LTkxMjAtNjc2ZDNhN2Q0OTUxIiwibmFtZSI6IkplcnJ5IiwianRpIjoiMjU3NzZkZjQtNzcyNy00ZDQzLTk1MjItZmUzMGM5NmVkZWEwIiwiZXhwIjoxNjcxMTgxMDU4LCJpc3MiOiJDb21tdW5pb24iLCJhdWQiOiJDb21tdW5pb24ifQ.3c7GWVEpMlVRIdUWYFXDUG4dj5eEn91N70e55DbRqQc
 
 # Create category request with form
-POST {{host}}/api/admin/categories
+POST {{host}}/api/admin/categories/create-category
 Authorization: Bearer {{token}}
 Content-Type: multipart/form-data; boundary=---------------------------735323031399963166993862150
 
