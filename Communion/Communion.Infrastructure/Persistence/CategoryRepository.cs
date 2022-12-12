@@ -11,6 +11,11 @@ public class CategoryRepository : ICategoryRepository
         _categories.Add(category);
     }
 
+    public bool CategoryNameExists(string categoryName)
+    {
+        return _categories.Any(c => string.Equals(c.Name, categoryName, StringComparison.OrdinalIgnoreCase));
+    }
+
     public Category? GetCategoryById(Guid categoryId)
     {
         return _categories.Find(c => c.Id.Value == categoryId);

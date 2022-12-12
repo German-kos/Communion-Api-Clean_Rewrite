@@ -6,4 +6,5 @@ public interface ICategoryRepository
 {
     void Add(Category category);
     Category? GetCategoryById(Guid categoryId);
+    bool CategoryNameExists(string categoryName);
 }
