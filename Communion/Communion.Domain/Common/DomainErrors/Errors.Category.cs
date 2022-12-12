@@ -6,9 +6,13 @@ public static partial class Errors
 {
     public static class Category
     {
+        public static Error CategoryNotFound => Error.Conflict(
+            code: "Category.CategoryNotFound",
+            description: "Requested category does not exist.");
+
         public static Error TopicNotFound => Error.Conflict(
             code: "Category.TopicNotFound",
-            description: "This topic does not exist.");
+            description: "Requested topic does not exist.");
 
         public static Error MaxTopicAmount => Error.Conflict(
             code: "Category.MaxTopicAmount",
