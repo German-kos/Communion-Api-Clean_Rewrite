@@ -1,4 +1,5 @@
 using Communion.Application.Categories.Commands.CreateCategory;
+using Communion.Application.Categories.Commands.EditCategory;
 using Communion.Application.Categories.Commands.RenameCategory;
 using Communion.Contracts.Categories;
 using Communion.Domain.Category.Entities;
@@ -39,6 +40,18 @@ public class CategoryMappingConfig : IRegister
                 RenameCategoryCommand>()
             .Map(dest => dest.CategoryId, src => new Guid(src.Request.CategoryId))
             .Map(dest => dest.NewName, src => src.Request.NewName)
+            .Map(dest => dest.Username, src => src.Username);
+
+        config.NewConfig
+                <(EditCategoryRequest Request,
+                    string? NewBannerPublicId,
+                    string? NewBannerUrl,
+                    string Username),
+                EditCategoryCommand>()
+            .Map(dest => dest.CategoryId, src => new Guid(src.Request.CategoryId))
+            .Map(dest => dest.NewName, src => src.Request.NewName)
+            .Map(dest => dest.NewBannerPublicId, src => src.NewBannerPublicId)
+            .Map(dest => dest.NewBannerUrl, src => src.NewBannerUrl)
             .Map(dest => dest.Username, src => src.Username);
     }
 }
