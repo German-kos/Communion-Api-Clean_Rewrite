@@ -1,5 +1,6 @@
 using Communion.Api.Extensions;
 using Communion.Application.Categories.Commands.CreateCategory;
+using Communion.Application.Categories.Commands.EditCategory;
 using Communion.Application.Categories.Commands.RenameCategory;
 using Communion.Application.Common.Interfaces.Services;
 using Communion.Contracts.Categories;
@@ -51,6 +52,34 @@ public class CategoriesController : ApiController
             errors => Problem(errors));
     }
 
+    // VVV Reminder VVV
+    // *** Implement check for admin rights when database is added ***
+
+    // JWT and admin rights are needed
+    [HttpPost("Edit-Category")] // POST api/admin/categories/edit-category
+    public async Task<IActionResult> EditCategory([FromForm] EditCategoryRequest request)
+    {
+        string username = User.GetUsername()!;
+
+        string? newBannerPublicId = null;
+        string? newBannerUrl = null;
+
+        if (request.NewBannerImage is not null)
+        {
+            var uploadBannerResult = await _imageService.UploadBannerAsync(request.NewBannerImage);
+            newBannerPublicId = uploadBannerResult.PublicId;
+            newBannerUrl = uploadBannerResult.SecureUrl.AbsoluteUri;
+        }
+
+        var command = _mapper.Map<EditCategoryCommand>((request, newBannerPublicId, newBannerUrl, username));
+
+        var editCategoryResult = await _mediator.Send(command);
+
+        return editCategoryResult.Match(
+            category => Ok(_mapper.Map<CategoryResponse>(category)),
+            errors => Problem(errors));
+    }
+    // Remove endpoint
     [HttpPost("Rename-Category")]
     [Authorize]
     public async Task<IActionResult> RenameCategory([FromForm] RenameCategoryRequest request)
