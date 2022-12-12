@@ -2,16 +2,21 @@
 @token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJKZXJyeVNhIiwic3ViIjoiNDNkOTE5MDQtZGE2OS00YTQ2LTkxMjAtNjc2ZDNhN2Q0OTUxIiwibmFtZSI6IkplcnJ5IiwianRpIjoiMjU3NzZkZjQtNzcyNy00ZDQzLTk1MjItZmUzMGM5NmVkZWEwIiwiZXhwIjoxNjcxMTgxMDU4LCJpc3MiOiJDb21tdW5pb24iLCJhdWQiOiJDb21tdW5pb24ifQ.3c7GWVEpMlVRIdUWYFXDUG4dj5eEn91N70e55DbRqQc
 
 # Create category request with form
-POST {{host}}/api/admin/categories/rename-category
+POST {{host}}/api/admin/categories/edit-category
 Authorization: Bearer {{token}}
 Content-Type: multipart/form-data; boundary=---------------------------735323031399963166993862150
 
 -----------------------------735323031399963166993862150
 Content-Disposition: form-data; name="CategoryId"
 
-74bec976-17f6-4ff8-9904-eba9f75bda14
+de10f3a6-76f3-4ea2-8c78-f978760a4b9c
 -----------------------------735323031399963166993862150
 Content-Disposition: form-data; name="NewName"
 
-my first category but it has a new name
+New Name
+-----------------------------735323031399963166993862150
+Content-Disposition: form-data; name="NewBannerImage"; filename="DefaultBanner.jpg"
+Content-Type: image/jpeg
+
+< ..\..\Assets\Banners\DefaultBanner.jpg
 -----------------------------735323031399963166993862150--
