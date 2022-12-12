@@ -10,4 +10,9 @@ public class CategoryRepository : ICategoryRepository
     {
         _categories.Add(category);
     }
+
+    public Category? GetCategoryById(Guid categoryId)
+    {
+        return _categories.Find(c => c.Id.Value == categoryId);
+    }
 }

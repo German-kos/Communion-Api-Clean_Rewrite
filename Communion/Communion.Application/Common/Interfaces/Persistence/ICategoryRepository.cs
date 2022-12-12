@@ -5,4 +5,5 @@ namespace Communion.Application.Common.Interfaces.Persistence;
 public interface ICategoryRepository
 {
     void Add(Category category);
+    Category? GetCategoryById(Guid categoryId);
 }
