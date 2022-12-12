@@ -1,5 +1,6 @@
 using Communion.Api.Extensions;
 using Communion.Application.Categories.Commands.CreateCategory;
+using Communion.Application.Categories.Commands.RenameCategory;
 using Communion.Application.Common.Interfaces.Services;
 using Communion.Contracts.Categories;
 using MapsterMapper;
@@ -33,7 +34,7 @@ public class CategoriesController : ApiController
         return Ok(Array.Empty<string>());
     }
 
-    [HttpPost]
+    [HttpPost("Create-Category")]
     [Authorize]
     public async Task<IActionResult> CreateCategory([FromForm] CreateCategoryRequest request)
     {
@@ -46,6 +47,19 @@ public class CategoriesController : ApiController
         var createCategoryResult = await _mediator.Send(command);
 
         return createCategoryResult.Match(
+            category => Ok(_mapper.Map<CategoryResponse>(category)),
+            errors => Problem(errors));
+    }
+
+    [HttpPost("Rename-Category")]
+    [Authorize]
+    public async Task<IActionResult> RenameCategory([FromForm] RenameCategoryRequest request)
+    {
+        var command = _mapper.Map<RenameCategoryCommand>((request, User.GetUsername()));
+
+        var renameCategoryResult = await _mediator.Send(command);
+
+        return renameCategoryResult.Match(
             category => Ok(_mapper.Map<CategoryResponse>(category)),
             errors => Problem(errors));
     }
