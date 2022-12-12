@@ -1,13 +1,12 @@
-using System.Data;
 using Communion.Application.Common.Interfaces.Persistence;
-using Communion.Application.Common.Interfaces.Services;
 using Communion.Domain.CategoryAggregate;
 using ErrorOr;
 using MediatR;
 
 namespace Communion.Application.Categories.Commands.CreateCategory;
 
-public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryCommand, ErrorOr<Category>>
+public class CreateCategoryCommandHandler
+            : IRequestHandler<CreateCategoryCommand, ErrorOr<Category>>
 {
     // Dependency Injections
     private readonly ICategoryRepository _categoryRepository;
@@ -17,13 +16,15 @@ public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryComman
     }
 
     // Handler
-    public async Task<ErrorOr<Category>> Handle(CreateCategoryCommand command, CancellationToken cancellationToken)
+    public async Task<ErrorOr<Category>> Handle(
+        CreateCategoryCommand command,
+        CancellationToken cancellationToken)
     {
-        // Deconstruction
-        var (categoryName, BannerPublicId, BannerUrl, topicName, username) = command;
-
         // Temporary await, remove when this method is made async
         await Task.CompletedTask;
+
+        // Deconstruction
+        var (categoryName, BannerPublicId, BannerUrl, topicName, username) = command;
 
         // Create Category
         var category = Category.Create(categoryName, BannerPublicId, BannerUrl, topicName, username);
