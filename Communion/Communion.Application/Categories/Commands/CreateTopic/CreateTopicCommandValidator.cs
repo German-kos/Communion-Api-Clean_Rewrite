@@ -2,6 +2,7 @@ using Communion.Domain.Constants;
 using FluentValidation;
 
 namespace Communion.Application.Categories.Commands.CreateTopic;
+
 public class CreateTopicCommandValidator : AbstractValidator<CreateTopicCommand>
 {
     public CreateTopicCommandValidator()
