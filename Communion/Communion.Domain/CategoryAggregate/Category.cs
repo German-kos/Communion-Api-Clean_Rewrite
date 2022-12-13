@@ -13,7 +13,6 @@ public sealed class Category : AggregateRoot<CategoryId>
     // Private fields
     private string _name;
     private Banner _banner;
-    private List<Topic> _topics;
     private DateTime _updateDateTime;
     private bool _isModified;
     private string _whoModified;
@@ -21,12 +20,12 @@ public sealed class Category : AggregateRoot<CategoryId>
     // Getters
     public string Name => _name;
     public Banner Banner => _banner;
-    public List<Topic> Topics => _topics;
     public DateTime UpdateDateTime => _updateDateTime;
     public bool IsModified => _isModified;
     public string WhoModified => _whoModified;
 
     // Readonly fields
+    public List<Topic> Topics { get; }
     public DateTime CreationDateTime { get; }
 
     // Constructor
@@ -40,7 +39,7 @@ public sealed class Category : AggregateRoot<CategoryId>
     {
         _name = name;
         _banner = banner;
-        _topics = new() { topic };
+        Topics = new() { topic };
         // _topics.Add(topic);
         CreationDateTime = _updateDateTime = DateTime.UtcNow;
         _whoModified = username;
@@ -87,14 +86,14 @@ public sealed class Category : AggregateRoot<CategoryId>
         string name,
         string username)
     {
-        if (_topics.Count >= Predefined.MaxTopicAmount)
+        if (Topics.Count >= Predefined.MaxTopicAmount)
             return Errors.Category.MaxTopicAmount;
 
-        bool topicExists = _topics.Any(t => string.Equals(t.Name, name, StringComparison.OrdinalIgnoreCase));
+        bool topicExists = Topics.Any(t => string.Equals(t.Name, name, StringComparison.OrdinalIgnoreCase));
         if (topicExists)
             return Errors.Category.TopicExists;
 
-        _topics.Add(
+        Topics.Add(
             Topic.Create(
                 Id,
                 name,
@@ -110,7 +109,7 @@ public sealed class Category : AggregateRoot<CategoryId>
         string name,
         string username)
     {
-        var topic = _topics.Find(t => t == target);
+        var topic = Topics.Find(t => t == target);
 
         if (topic is null)
             return Errors.Category.TopicNotFound;
@@ -124,7 +123,7 @@ public sealed class Category : AggregateRoot<CategoryId>
     Topic target,
     string username)
     {
-        bool topicRemoved = _topics.Remove(target);
+        bool topicRemoved = Topics.Remove(target);
 
         if (!topicRemoved)
             return Errors.Category.TopicNotFound;
