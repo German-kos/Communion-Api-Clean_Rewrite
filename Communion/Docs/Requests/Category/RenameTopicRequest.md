@@ -1,4 +1,4 @@
-# CREATE TOPIC REQUEST
+# RENAME TOPIC REQUEST
 
 ## *ROUTE*
 
@@ -15,7 +15,7 @@ Post /api/admin/categories/rename-topic
 // in order to track who was the user that requested the edit.
 {
     "CategoryId": "The category's ID", // Provide the ID of the category to rename a topic in it
-    "TopicId": "The ID of the topic to rename", // Provide the desired topic's ID
+    "TopicId": "The ID of the topic to rename", // Provide the ID of the topic to rename
     "TopicName": "The name of the new topic" // Provide the new name for the topic
 }
 ```
