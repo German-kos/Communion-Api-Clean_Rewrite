@@ -18,6 +18,10 @@ public static partial class Errors
             code: "Category.TopicNotFound",
             description: "Requested topic does not exist.");
 
+        public static Error MinimumTopicAmount => Error.Conflict(
+            code: "Category.MaxTopicAmount",
+            description: "Category has reached the minimum amount of topics allowed.");
+
         public static Error MaxTopicAmount => Error.Conflict(
             code: "Category.MaxTopicAmount",
             description: "Category has reached the maximum amount of topics allowed.");
