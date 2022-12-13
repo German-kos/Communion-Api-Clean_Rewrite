@@ -2,7 +2,6 @@ using Communion.Api.Extensions;
 using Communion.Application.Categories.Commands.CreateCategory;
 using Communion.Application.Categories.Commands.CreateTopic;
 using Communion.Application.Categories.Commands.EditCategory;
-using Communion.Application.Categories.Commands.RenameCategory;
 using Communion.Application.Categories.Commands.RenameTopic;
 using Communion.Application.Common.Interfaces.Services;
 using Communion.Contracts.Categories;
@@ -105,20 +104,6 @@ public class CategoriesController : ApiController
         var renameTopicResult = await _mediator.Send(command);
 
         return renameTopicResult.Match(
-            category => Ok(_mapper.Map<CategoryResponse>(category)),
-            errors => Problem(errors));
-    }
-
-    // Remove endpoint
-    [HttpPost("Rename-Category")]
-    [Authorize]
-    public async Task<IActionResult> RenameCategory([FromForm] RenameCategoryRequest request)
-    {
-        var command = _mapper.Map<RenameCategoryCommand>((request, User.GetUsername()));
-
-        var renameCategoryResult = await _mediator.Send(command);
-
-        return renameCategoryResult.Match(
             category => Ok(_mapper.Map<CategoryResponse>(category)),
             errors => Problem(errors));
     }
