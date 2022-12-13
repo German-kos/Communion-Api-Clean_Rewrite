@@ -1,6 +1,7 @@
 using Communion.Application.Categories.Commands.CreateCategory;
 using Communion.Application.Categories.Commands.CreateTopic;
 using Communion.Application.Categories.Commands.EditCategory;
+using Communion.Application.Categories.Commands.RemoveTopic;
 using Communion.Application.Categories.Commands.RenameTopic;
 using Communion.Contracts.Categories;
 using Communion.Domain.Category.Entities;
@@ -62,6 +63,14 @@ public class CategoryMappingConfig : IRegister
             .Map(dest => dest.CategoryId, src => new Guid(src.Request.CategoryId))
             .Map(dest => dest.TopicId, src => new Guid(src.Request.TopicId))
             .Map(dest => dest.NewTopicName, src => src.Request.NewTopicName)
+            .Map(dest => dest.Username, src => src.Username);
+
+        config.NewConfig
+                <(RemoveTopicRequest Request,
+                    string Username),
+                RemoveTopicCommand>()
+            .Map(dest => dest.CategoryId, src => new Guid(src.Request.CategoryId))
+            .Map(dest => dest.TopicId, src => new Guid(src.Request.TopicId))
             .Map(dest => dest.Username, src => src.Username);
     }
 }

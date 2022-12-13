@@ -2,7 +2,7 @@
 @token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJKZXJyeVNhIiwic3ViIjoiNDNkOTE5MDQtZGE2OS00YTQ2LTkxMjAtNjc2ZDNhN2Q0OTUxIiwibmFtZSI6IkplcnJ5IiwianRpIjoiMjU3NzZkZjQtNzcyNy00ZDQzLTk1MjItZmUzMGM5NmVkZWEwIiwiZXhwIjoxNjcxMTgxMDU4LCJpc3MiOiJDb21tdW5pb24iLCJhdWQiOiJDb21tdW5pb24ifQ.3c7GWVEpMlVRIdUWYFXDUG4dj5eEn91N70e55DbRqQc
 
 # Create category request with form
-POST {{host}}/api/admin/categories/create-topic
+POST {{host}}/api/admin/categories/remove-topic
 Authorization: Bearer {{token}}
 Content-Type: multipart/form-data; boundary=---------------------------735323031399963166993862150
 
@@ -11,7 +11,7 @@ Content-Disposition: form-data; name="CategoryId"
 
 badc4b31-73c0-47e6-b844-072b04e3c388
 -----------------------------735323031399963166993862150
-Content-Disposition: form-data; name="TopicName"
+Content-Disposition: form-data; name="TopicId"
 
-zazzaaaaaaaaז
+a904b902-4106-4a57-9aaa-2fc592bfab63
 -----------------------------735323031399963166993862150--

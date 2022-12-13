@@ -2,6 +2,7 @@ using Communion.Api.Extensions;
 using Communion.Application.Categories.Commands.CreateCategory;
 using Communion.Application.Categories.Commands.CreateTopic;
 using Communion.Application.Categories.Commands.EditCategory;
+using Communion.Application.Categories.Commands.RemoveTopic;
 using Communion.Application.Categories.Commands.RenameTopic;
 using Communion.Application.Common.Interfaces.Services;
 using Communion.Contracts.Categories;
@@ -58,8 +59,6 @@ public class CategoriesController : ApiController
     [HttpPost("Edit-Category")] // POST api/admin/categories/edit-category
     public async Task<IActionResult> EditCategory([FromForm] EditCategoryRequest request)
     {
-        string username = User.GetUsername()!;
-
         string? newBannerPublicId = null;
         string? newBannerUrl = null;
 
@@ -70,7 +69,7 @@ public class CategoriesController : ApiController
             newBannerUrl = uploadBannerResult.SecureUrl.AbsoluteUri;
         }
 
-        var command = _mapper.Map<EditCategoryCommand>((request, newBannerPublicId, newBannerUrl, username));
+        var command = _mapper.Map<EditCategoryCommand>((request, newBannerPublicId, newBannerUrl, User.GetUsername()));
 
         return await ReturnCommandResult(command);
     }
@@ -79,21 +78,25 @@ public class CategoriesController : ApiController
     [HttpPost("Create-Topic")] // POST /api/admin/categories/create-topic
     public async Task<IActionResult> CreateTopic([FromForm] CreateTopicRequest request)
     {
-        string username = User.GetUsername()!;
-
-        var command = _mapper.Map<CreateTopicCommand>((request, username));
+        var command = _mapper.Map<CreateTopicCommand>((request, User.GetUsername()));
 
         return await ReturnCommandResult(command);
-
     }
 
     // JWT and admin rights are needed
-    [HttpPost("Rename-Topic")] // POST /api/admin/categories/remove-topic
+    [HttpPost("Rename-Topic")] // POST /api/admin/categories/rename-topic
     public async Task<IActionResult> RenameTopic([FromForm] RenameTopicRequest request)
     {
-        string username = User.GetUsername()!;
+        var command = _mapper.Map<RenameTopicCommand>((request, User.GetUsername()));
 
-        var command = _mapper.Map<RenameTopicCommand>((request, username));
+        return await ReturnCommandResult(command);
+    }
+
+    // JWT and admin rights are needed
+    [HttpPost("Remove-Topic")] // POST /api/admin/categories/remove-topic
+    public async Task<IActionResult> RemoveTopic([FromForm] RemoveTopicRequest request)
+    {
+        var command = _mapper.Map<RemoveTopicCommand>((request, User.GetUsername()));
 
         return await ReturnCommandResult(command);
     }
