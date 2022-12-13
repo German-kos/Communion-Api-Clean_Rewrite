@@ -70,6 +70,7 @@ public class CategoryMappingConfig : IRegister
                 RenameTopicCommand>()
             .Map(dest => dest.CategoryId, src => new Guid(src.Request.CategoryId))
             .Map(dest => dest.TopicId, src => new Guid(src.Request.TopicId))
-            .Map(dest => dest.NewTopicName, src => src.Request.NewTopicName);
+            .Map(dest => dest.NewTopicName, src => src.Request.NewTopicName)
+            .Map(dest => dest.Username, src => src.Username);
     }
 }
