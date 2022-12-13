@@ -3,8 +3,11 @@ using Communion.Application.Categories.Commands.CreateCategory;
 using Communion.Application.Categories.Commands.CreateTopic;
 using Communion.Application.Categories.Commands.EditCategory;
 using Communion.Application.Categories.Commands.RenameCategory;
+using Communion.Application.Categories.Commands.RenameTopic;
 using Communion.Application.Common.Interfaces.Services;
 using Communion.Contracts.Categories;
+using Communion.Domain.CategoryAggregate;
+using ErrorOr;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -46,11 +49,7 @@ public class CategoriesController : ApiController
 
         var command = _mapper.Map<CreateCategoryCommand>((request, username, uploadBannerResult.PublicId, uploadBannerResult.SecureUrl.AbsoluteUri));
 
-        var createCategoryResult = await _mediator.Send(command);
-
-        return createCategoryResult.Match(
-            category => Ok(_mapper.Map<CategoryResponse>(category)),
-            errors => Problem(errors));
+        return await ReturnCommandResult(command);
     }
 
     // VVV Reminder VVV
@@ -74,11 +73,7 @@ public class CategoriesController : ApiController
 
         var command = _mapper.Map<EditCategoryCommand>((request, newBannerPublicId, newBannerUrl, username));
 
-        var editCategoryResult = await _mediator.Send(command);
-
-        return editCategoryResult.Match(
-            category => Ok(_mapper.Map<CategoryResponse>(category)),
-            errors => Problem(errors));
+        return await ReturnCommandResult(command);
     }
 
     // JWT and admin rights are needed
@@ -89,9 +84,27 @@ public class CategoriesController : ApiController
 
         var command = _mapper.Map<CreateTopicCommand>((request, username));
 
-        var createTopicResult = await _mediator.Send(command);
+        return await ReturnCommandResult(command);
 
-        return createTopicResult.Match(
+    }
+
+    // JWT and admin rights are needed
+    [HttpPost("Rename-Topic")] // POST /api/admin/categories/remove-topic
+    public async Task<IActionResult> RenameTopic([FromForm] RenameTopicRequest request)
+    {
+        string username = User.GetUsername()!;
+
+        var command = _mapper.Map<RenameTopicCommand>((request, username));
+
+        return await ReturnCommandResult(command);
+    }
+
+    // Command send & return handler
+    private async Task<IActionResult> ReturnCommandResult(IRequest<ErrorOr<Category>> command)
+    {
+        var renameTopicResult = await _mediator.Send(command);
+
+        return renameTopicResult.Match(
             category => Ok(_mapper.Map<CategoryResponse>(category)),
             errors => Problem(errors));
     }
