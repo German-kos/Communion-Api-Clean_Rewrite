@@ -6,7 +6,7 @@
 Post /api/admin/categories/edit-category
 ```
 
->***NOTE:** A JWT is required for authorization, and admin rights to perform the action.*
+>***NOTE:** A JWT is required for authorization, and admin rights to perform this action.*
 
 ## *EXPECTED FIELDS*
 
@@ -17,7 +17,7 @@ Post /api/admin/categories/edit-category
 // Either the name or the banner can be left
 // empty if there is no desire to change them, but not both.
 {
-    "CategoryId": "The category's ID", // Provide the id of the desired category
+    "CategoryId": "The category's ID", // Provide the ID of the desired category
     "NewCategoryName": "The category's new name", // Provide a name to change the name of the category
     "NewBannerImage": "An image for the new banner", // Provide an image to update the banner of the category
 }
