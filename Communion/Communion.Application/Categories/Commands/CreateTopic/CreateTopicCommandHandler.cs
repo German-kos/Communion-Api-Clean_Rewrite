@@ -6,12 +6,12 @@ using MediatR;
 
 namespace Communion.Application.Categories.Commands.CreateTopic;
 
-public class CreateTopicCommandHandler
+public class RemoveTopicCommandHandler
             : IRequestHandler<CreateTopicCommand, ErrorOr<Category>>
 {
     // Dependency Injections
     private readonly ICategoryRepository _categoryRepository;
-    public CreateTopicCommandHandler(ICategoryRepository categoryRepository)
+    public RemoveTopicCommandHandler(ICategoryRepository categoryRepository)
     {
         _categoryRepository = categoryRepository;
     }
