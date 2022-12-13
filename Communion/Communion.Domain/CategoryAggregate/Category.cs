@@ -123,6 +123,9 @@ public sealed class Category : AggregateRoot<CategoryId>
     Topic target,
     string username)
     {
+        if (Topics.Count is Predefined.MinimumTopicsPerCategory)
+            return Errors.Category.MinimumTopicAmount;
+
         bool topicRemoved = Topics.Remove(target);
 
         if (!topicRemoved)
