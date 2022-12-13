@@ -1,5 +1,6 @@
 using Communion.Api.Extensions;
 using Communion.Application.Categories.Commands.CreateCategory;
+using Communion.Application.Categories.Commands.CreateTopic;
 using Communion.Application.Categories.Commands.EditCategory;
 using Communion.Application.Categories.Commands.RenameCategory;
 using Communion.Application.Common.Interfaces.Services;
@@ -79,6 +80,22 @@ public class CategoriesController : ApiController
             category => Ok(_mapper.Map<CategoryResponse>(category)),
             errors => Problem(errors));
     }
+
+    // JWT and admin rights are needed
+    [HttpPost("Create-Topic")] // POST /api/admin/categories/create-topic
+    public async Task<IActionResult> CreateTopic([FromForm] CreateTopicRequest request)
+    {
+        string username = User.GetUsername()!;
+
+        var command = _mapper.Map<CreateTopicCommand>((request, username));
+
+        var createTopicResult = await _mediator.Send(command);
+
+        return createTopicResult.Match(
+            category => Ok(_mapper.Map<CategoryResponse>(category)),
+            errors => Problem(errors));
+    }
+
     // Remove endpoint
     [HttpPost("Rename-Category")]
     [Authorize]
