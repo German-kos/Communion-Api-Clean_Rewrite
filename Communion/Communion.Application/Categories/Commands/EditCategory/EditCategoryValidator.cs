@@ -1,13 +1,11 @@
-using System.Data;
-using System;
 using Communion.Domain.Constants;
 using FluentValidation;
 
 namespace Communion.Application.Categories.Commands.EditCategory;
 
-public class EditCategoryCommandValidator : AbstractValidator<EditCategoryCommand>
+public class CreateTopicCommandValidator : AbstractValidator<EditCategoryCommand>
 {
-    public EditCategoryCommandValidator()
+    public CreateTopicCommandValidator()
     {
         // CategoryId must be provided
         RuleFor(r => r.CategoryId).NotEmpty();
