@@ -18,3 +18,5 @@
 >>> if we'll try and get all the comments for all the posts within a single topic, it might take too long because when there are a lot of posts and comments, that's 2 layers to sift through.
 </br>
 > Create separate records for the banner and topics in the category response
+</br>
+> Create Posts code path
