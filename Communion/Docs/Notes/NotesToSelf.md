@@ -19,4 +19,5 @@
 </br>
 > Create separate records for the banner and topics in the category response
 </br>
-> Create Posts code path
+> Create Posts
+> Need aggregate md, and repository for posts and comments
